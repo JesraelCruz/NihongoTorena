@@ -40,168 +40,21 @@ class HiraganaRomajiTimerScore {
 
 /***/ }),
 
-/***/ "5fwx":
-/*!**************************************!*\
-  !*** ./src/app/game/nihongo-game.ts ***!
-  \**************************************/
-/*! exports provided: Statuses */
+/***/ "5IVi":
+/*!************************************!*\
+  !*** ./src/app/game/app-global.ts ***!
+  \************************************/
+/*! exports provided: AppGlobal */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Statuses", function() { return Statuses; });
-var Statuses;
-(function (Statuses) {
-    Statuses[Statuses["Stopped"] = 0] = "Stopped";
-    Statuses[Statuses["Started"] = 1] = "Started";
-    Statuses[Statuses["Menu"] = 2] = "Menu";
-    Statuses[Statuses["Completed"] = 3] = "Completed";
-    Statuses[Statuses["Failed"] = 4] = "Failed";
-    Statuses[Statuses["Highscore"] = 5] = "Highscore";
-})(Statuses || (Statuses = {}));
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppGlobal", function() { return AppGlobal; });
+/* harmony import */ var _highscore_list__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./highscore.list */ "p9ds");
 
-
-/***/ }),
-
-/***/ "5ky2":
-/*!********************************************************!*\
-  !*** ./src/app/game/hiragana-multiple-choice.game..ts ***!
-  \********************************************************/
-/*! exports provided: HiraganaMultipleChoiceGame */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HiraganaMultipleChoiceGame", function() { return HiraganaMultipleChoiceGame; });
-/* harmony import */ var _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../static-db/furigana.db */ "imSe");
-/* harmony import */ var _highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./highscore.list */ "p9ds");
-/* harmony import */ var _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./hiragana-romaji-timer.score */ "4lOu");
-/* harmony import */ var _nihongo_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./nihongo-game */ "5fwx");
-/* harmony import */ var _nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./nihongo-scoreboard */ "qCtN");
-
-
-
-
-
-class HiraganaMultipleChoiceGame {
-    constructor() {
-        this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomHiragana();
-        this.scoreboard = new _nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_4__["NihongoScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__["HiraganaRomajiTimerScore"]());
-        this.selected = [];
-        this.status = _nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Menu;
-        this.multipleChoice = [];
-    }
-    start() {
-        this.selected = [];
-        this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomHiragana(20);
-        this.scoreboard = new _nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_4__["NihongoScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__["HiraganaRomajiTimerScore"]());
-        this.status = _nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Started;
-        this.scoreboard.start();
-        this.scoreboard.setGiven(this.chooseFurigana());
-        this.multipleChoice = this.getMultipleChoice();
-    }
-    goToMenu() {
-        this.status = _nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Menu;
-    }
-    goToHighscore() {
-        this.status = _nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Highscore;
-    }
-    checkSelected(chosen) {
-        var _a;
-        if (chosen.romaji === ((_a = this.scoreboard.givenValue) === null || _a === void 0 ? void 0 : _a.romaji)) {
-            this.addSelected(chosen);
-            this.scoreboard.addPoint();
-            this.scoreboard.setGiven(this.chooseFurigana());
-            this.multipleChoice = this.getMultipleChoice();
-            if (this.table.length === this.selected.length) {
-                this.status = _nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Completed;
-                this.saveHighscore();
-                this.scoreboard.stop();
-            }
-        }
-        else {
-            this.scoreboard.missed();
-        }
-    }
-    getTimeValue() {
-        return this.scoreboard.timeNumber;
-    }
-    getTable() {
-        return this.table;
-    }
-    getSelected() {
-        return this.selected.map((furigana) => furigana.duplicate());
-    }
-    getTime() {
-        return this.scoreboard.timeValue;
-    }
-    getPoint() {
-        return this.scoreboard.pointValue;
-    }
-    getError() {
-        return this.scoreboard.errorValue;
-    }
-    getGiven() {
-        return this.scoreboard.givenValue;
-    }
-    get statusValue() {
-        return this.status;
-    }
-    get multipleChoiceValue() {
-        return this.multipleChoice;
-    }
-    get hasStarted() {
-        return this.status === _nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Started;
-    }
-    get onMenu() {
-        return this.status === _nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Menu;
-    }
-    saveHighscore() {
-        const highscore = new _highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreModel"](this.getPoint(), this.getTimeValue(), this.getError());
-        _highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreList"].addHighscore(highscore, _highscore_list__WEBPACK_IMPORTED_MODULE_1__["Games"].HiraganaMultiple);
-    }
-    getMultipleChoice() {
-        const furiganaSet = [];
-        const givenIndex = Math.floor(Math.random() * 4);
-        while (furiganaSet.length < 4) {
-            if (furiganaSet.length === givenIndex) {
-                if (this.scoreboard.givenValue) {
-                    furiganaSet.push(this.scoreboard.givenValue);
-                }
-            }
-            const furigana = this.randomFurigana(furiganaSet);
-            if (furigana) {
-                furiganaSet.push(furigana);
-            }
-            if (furiganaSet.length === givenIndex) {
-                if (this.scoreboard.givenValue) {
-                    furiganaSet.push(this.scoreboard.givenValue);
-                }
-            }
-        }
-        return furiganaSet;
-    }
-    addSelected(furigana) {
-        this.selected.push(furigana.duplicate());
-    }
-    chooseFurigana() {
-        const table = this.table.filter((f) => {
-            const selected = this.selected.filter((s) => s.romaji === f.romaji);
-            return selected.length === 0;
-        });
-        const index = Math.floor(Math.random() * table.length);
-        return table[index];
-    }
-    randomFurigana(furiganaSet) {
-        const given = this.scoreboard.givenValue;
-        const table = this.table.filter((f) => {
-            const set = furiganaSet.filter((fs) => fs.romaji === f.romaji);
-            return set.length === 0 && f.romaji !== (given === null || given === void 0 ? void 0 : given.romaji);
-        });
-        const index = Math.floor(Math.random() * table.length);
-        return table[index];
-    }
+class AppGlobal {
 }
+AppGlobal.gameSelected = _highscore_list__WEBPACK_IMPORTED_MODULE_0__["Games"].NoSelection;
 
 
 /***/ }),
@@ -347,18 +200,94 @@ class FuriganaModel {
         this.hasKatakana = hasKatakana;
         this.hasHiragana = hasHiragana;
     }
-    get hiragana() {
-        return Object(wanakana__WEBPACK_IMPORTED_MODULE_0__["toHiragana"])(this.romaji, {
+    static toHiragana(romaji) {
+        return Object(wanakana__WEBPACK_IMPORTED_MODULE_0__["toHiragana"])(romaji, {
             customKanaMapping: {
                 dzi: 'ぢ', dzu: 'づ', dzya: 'ぢゃ', dzyu: 'ぢゅ', dzyo: 'ぢょ'
-            }
+            },
         });
     }
+    static toKatakana(romaji) {
+        return Object(wanakana__WEBPACK_IMPORTED_MODULE_0__["toKatakana"])(romaji, {
+            customKanaMapping: {
+                dzi: 'ヂ', dzu: 'ヅ', dzya: 'ヂャ', dzyu: 'ヂュ', dzyo: 'ヂョ',
+                ē: 'エー', kē: 'ケー', sē: 'セー', tē: 'テー', nē: 'ネー', hē: 'ヘー',
+                mē: 'メー', rē: 'レー', ā: 'アー', kā: 'カー', sā: 'サー', tā: 'ター',
+                nā: 'ナー', hā: 'ハー', mā: 'マー', yā: 'ヤー', rā: 'ラー', wā: 'ワー'
+            },
+        });
+    }
+    get hiragana() {
+        return FuriganaModel.toHiragana(this.romaji);
+    }
     get katakana() {
-        return Object(wanakana__WEBPACK_IMPORTED_MODULE_0__["toKatakana"])(this.romaji);
+        return FuriganaModel.toKatakana(this.romaji);
     }
     duplicate() {
         return new FuriganaModel(this.romaji, this.hasKatakana, this.hasHiragana);
+    }
+}
+
+
+/***/ }),
+
+/***/ "GTpk":
+/*!********************************************************************************!*\
+  !*** ./src/app/game/katakana-multiple-choice/katakana-multiple-choice.game.ts ***!
+  \********************************************************************************/
+/*! exports provided: KatakanaMultipleChoiceGame */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KatakanaMultipleChoiceGame", function() { return KatakanaMultipleChoiceGame; });
+/* harmony import */ var _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../static-db/furigana.db */ "imSe");
+/* harmony import */ var _highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../highscore.list */ "p9ds");
+/* harmony import */ var _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hiragana-romaji-timer.score */ "4lOu");
+/* harmony import */ var _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../nihongo-base/nihongo-game */ "bPHt");
+/* harmony import */ var _nihongo_base_nihongo_game_base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../nihongo-base/nihongo-game.base */ "kktn");
+/* harmony import */ var _nihongo_base_nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../nihongo-base/nihongo-scoreboard */ "j97u");
+
+
+
+
+
+
+class KatakanaMultipleChoiceGame extends _nihongo_base_nihongo_game_base__WEBPACK_IMPORTED_MODULE_4__["NihongoGameBase"] {
+    constructor() {
+        super(...arguments);
+        this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomKatakana();
+        this.scoreboard = new _nihongo_base_nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_5__["NihongoScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__["HiraganaRomajiTimerScore"]());
+    }
+    start() {
+        this.selected = [];
+        this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomKatakana(20);
+        this.scoreboard = new _nihongo_base_nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_5__["NihongoScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__["HiraganaRomajiTimerScore"]());
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Started;
+        this.scoreboard.start();
+        this.scoreboard.setGiven(this.chooseFurigana());
+        this.multipleChoice = this.getMultipleChoice();
+    }
+    checkSelected(chosen) {
+        var _a;
+        if (chosen.romaji === ((_a = this.scoreboard.givenValue) === null || _a === void 0 ? void 0 : _a.romaji)) {
+            this.addSelected(chosen);
+            this.scoreboard.addPoint();
+            this.scoreboard.setGiven(this.chooseFurigana());
+            this.multipleChoice = this.getMultipleChoice();
+            if (this.table.length === this.selected.length) {
+                this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Completed;
+                this.saveHighscore();
+                this.scoreboard.stop();
+            }
+        }
+        else {
+            this.scoreboard.missed();
+        }
+    }
+    saveHighscore() {
+        const highscore = new _highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreModel"](this.getPoint(), this.getTimeValue(), this.getError());
+        _highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreList"].addHighscore(highscore, _highscore_list__WEBPACK_IMPORTED_MODULE_1__["Games"].KatakanaMultiple);
     }
 }
 
@@ -470,6 +399,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./game-final-score/game-final-score.component */ "m8M7");
 /* harmony import */ var _game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./game-highscore-list/game-highscore-list.component */ "ws5B");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/platform-browser */ "jhN1");
+/* harmony import */ var _game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./game-selector/game-selector.component */ "oDhR");
+
 
 
 
@@ -492,12 +423,14 @@ SharedModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjec
         _game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_4__["GameScoreboardComponent"],
         _hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaChoiceComponent"],
         _game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_6__["GameFinalScoreComponent"],
-        _game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_7__["GameHighscoreListComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_8__["BrowserModule"]], exports: [_shared_hiragana_tile_hiragana_tile_component__WEBPACK_IMPORTED_MODULE_1__["HiraganaTileComponent"],
+        _game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_7__["GameHighscoreListComponent"],
+        _game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_9__["GameSelectorComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_8__["BrowserModule"]], exports: [_shared_hiragana_tile_hiragana_tile_component__WEBPACK_IMPORTED_MODULE_1__["HiraganaTileComponent"],
         _game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_2__["GameMenuComponent"],
         _game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_4__["GameScoreboardComponent"],
         _hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaChoiceComponent"],
         _game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_6__["GameFinalScoreComponent"],
-        _game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_7__["GameHighscoreListComponent"]] }); })();
+        _game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_7__["GameHighscoreListComponent"],
+        _game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_9__["GameSelectorComponent"]] }); })();
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](SharedModule, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"],
         args: [{
@@ -511,7 +444,8 @@ SharedModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjec
                     _game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_4__["GameScoreboardComponent"],
                     _hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaChoiceComponent"],
                     _game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_6__["GameFinalScoreComponent"],
-                    _game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_7__["GameHighscoreListComponent"]
+                    _game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_7__["GameHighscoreListComponent"],
+                    _game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_9__["GameSelectorComponent"]
                 ],
                 exports: [
                     _shared_hiragana_tile_hiragana_tile_component__WEBPACK_IMPORTED_MODULE_1__["HiraganaTileComponent"],
@@ -519,7 +453,8 @@ SharedModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjec
                     _game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_4__["GameScoreboardComponent"],
                     _hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaChoiceComponent"],
                     _game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_6__["GameFinalScoreComponent"],
-                    _game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_7__["GameHighscoreListComponent"]
+                    _game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_7__["GameHighscoreListComponent"],
+                    _game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_9__["GameSelectorComponent"]
                 ]
             }]
     }], null, null); })();
@@ -538,31 +473,69 @@ SharedModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjec
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _game_highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./game/highscore.list */ "p9ds");
-/* harmony import */ var _hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./hiragana-multiple-choice/hiragana-multiple-choice.component */ "TBKY");
-/* harmony import */ var _footer_footer_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./footer/footer.component */ "fp1T");
+/* harmony import */ var _game_app_global__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./game/app-global */ "5IVi");
+/* harmony import */ var _game_highscore_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./game/highscore.list */ "p9ds");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _footer_footer_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./footer/footer.component */ "fp1T");
+/* harmony import */ var _shared_game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./shared/game-selector/game-selector.component */ "oDhR");
+/* harmony import */ var _hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./hiragana-multiple-choice/hiragana-multiple-choice.component */ "TBKY");
+/* harmony import */ var _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./katakana-multiple-choice/katakana-multiple-choice.component */ "n3ry");
 
 
 
 
 
+
+
+
+
+function AppComponent_app_game_selector_2_Template(rf, ctx) { if (rf & 1) {
+    const _r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "app-game-selector", 4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("selected", function AppComponent_app_game_selector_2_Template_app_game_selector_selected_0_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r4); const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r3.selectGame($event); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} }
+function AppComponent_app_hiragana_multiple_choice_3_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-hiragana-multiple-choice", 5);
+} }
+function AppComponent_app_katakana_multiple_choice_4_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-katakana-multiple-choice", 5);
+} }
 class AppComponent {
     constructor() {
         this.title = 'nihongo-torena';
+        this.availableGames = _game_highscore_list__WEBPACK_IMPORTED_MODULE_2__["Games"];
     }
     ngOnInit() {
-        _game_highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreList"].getHighscores();
+        _game_highscore_list__WEBPACK_IMPORTED_MODULE_2__["HighscoreList"].getHighscores();
+    }
+    selectGame(selection) {
+        _game_app_global__WEBPACK_IMPORTED_MODULE_1__["AppGlobal"].gameSelected = selection;
+    }
+    get selected() {
+        return _game_app_global__WEBPACK_IMPORTED_MODULE_1__["AppGlobal"].gameSelected;
     }
 }
 AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(); };
-AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], decls: 4, vars: 0, consts: [[1, "d-flex", "flex-column", "min-height-100"], [1, "container", "flex-grow-1", "d-flex", "flex-column", "justify-content-center"], [1, "d-flex", "flex-column", "justify-content-center"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
+AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], decls: 6, vars: 4, consts: [[1, "d-flex", "flex-column", "min-height-100"], [1, "container", "flex-grow-1", "d-flex", "flex-column", "justify-content-center", 3, "ngSwitch"], ["class", "d-flex flex-column justify-content-center", 3, "selected", 4, "ngSwitchCase"], ["class", "d-flex flex-column justify-content-center", 4, "ngSwitchCase"], [1, "d-flex", "flex-column", "justify-content-center", 3, "selected"], [1, "d-flex", "flex-column", "justify-content-center"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "app-hiragana-multiple-choice", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, AppComponent_app_game_selector_2_Template, 1, 0, "app-game-selector", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, AppComponent_app_hiragana_multiple_choice_3_Template, 1, 0, "app-hiragana-multiple-choice", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](4, AppComponent_app_katakana_multiple_choice_4_Template, 1, 0, "app-katakana-multiple-choice", 3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](3, "app-footer");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "app-footer");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    } }, directives: [_hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_2__["HiraganaMultipleChoiceComponent"], _footer_footer_component__WEBPACK_IMPORTED_MODULE_3__["FooterComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhcHAuY29tcG9uZW50LnNjc3MifQ== */"] });
+    } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngSwitch", ctx.selected);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngSwitchCase", ctx.availableGames.NoSelection);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngSwitchCase", ctx.availableGames.HiraganaMultiple);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngSwitchCase", ctx.availableGames.KatakanaMultiple);
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgSwitch"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgSwitchCase"], _footer_footer_component__WEBPACK_IMPORTED_MODULE_4__["FooterComponent"], _shared_game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_5__["GameSelectorComponent"], _hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_6__["HiraganaMultipleChoiceComponent"], _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_7__["KatakanaMultipleChoiceComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhcHAuY29tcG9uZW50LnNjc3MifQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AppComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -587,8 +560,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HiraganaMultipleChoiceComponent", function() { return HiraganaMultipleChoiceComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _game_highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../game/highscore.list */ "p9ds");
-/* harmony import */ var _game_hiragana_multiple_choice_game___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../game/hiragana-multiple-choice.game. */ "5ky2");
-/* harmony import */ var _game_nihongo_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../game/nihongo-game */ "5fwx");
+/* harmony import */ var _game_hiragana_multiple_choice_hiragana_multiple_choice_game___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../game/hiragana-multiple-choice/hiragana-multiple-choice.game. */ "nTLI");
+/* harmony import */ var _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../game/nihongo-base/nihongo-game */ "bPHt");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "ofXK");
 /* harmony import */ var _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../shared/hiragana-choice/hiragana-choice.component */ "bhjN");
 /* harmony import */ var _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../shared/game-menu/game-menu.component */ "hU2R");
@@ -642,7 +615,7 @@ function HiraganaMultipleChoiceComponent_app_game_highscore_list_9_Template(rf, 
 } }
 class HiraganaMultipleChoiceComponent {
     constructor() {
-        this.hiraganaGame = new _game_hiragana_multiple_choice_game___WEBPACK_IMPORTED_MODULE_2__["HiraganaMultipleChoiceGame"]();
+        this.hiraganaGame = new _game_hiragana_multiple_choice_hiragana_multiple_choice_game___WEBPACK_IMPORTED_MODULE_2__["HiraganaMultipleChoiceGame"]();
     }
     ngOnInit() { }
     get multipleChoiceValue() {
@@ -653,19 +626,19 @@ class HiraganaMultipleChoiceComponent {
         return (_b = (_a = this.hiraganaGame.getGiven()) === null || _a === void 0 ? void 0 : _a.hiragana) !== null && _b !== void 0 ? _b : '';
     }
     get hasStarted() {
-        return this.hiraganaGame.statusValue === _game_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Started;
+        return this.hiraganaGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Started;
     }
     get hasCompleted() {
-        return this.hiraganaGame.statusValue === _game_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Completed;
+        return this.hiraganaGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Completed;
     }
     get onMenu() {
-        return this.hiraganaGame.statusValue === _game_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Menu;
+        return this.hiraganaGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Menu;
     }
     get completed() {
-        return this.hiraganaGame.statusValue === _game_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Completed;
+        return this.hiraganaGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Completed;
     }
     get highscore() {
-        return this.hiraganaGame.statusValue === _game_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Highscore;
+        return this.hiraganaGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Highscore;
     }
     get game() {
         return _game_highscore_list__WEBPACK_IMPORTED_MODULE_1__["Games"].HiraganaMultiple;
@@ -733,6 +706,10 @@ HiraganaMultipleChoiceComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuButtonComponent", function() { return MenuButtonComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var src_app_game_app_global__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/game/app-global */ "5IVi");
+/* harmony import */ var src_app_game_highscore_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/game/highscore.list */ "p9ds");
+
+
 
 
 class MenuButtonComponent {
@@ -748,9 +725,12 @@ class MenuButtonComponent {
     goToHighscore() {
         this.highscore.emit();
     }
+    goToGameMenu() {
+        src_app_game_app_global__WEBPACK_IMPORTED_MODULE_1__["AppGlobal"].gameSelected = src_app_game_highscore_list__WEBPACK_IMPORTED_MODULE_2__["Games"].NoSelection;
+    }
 }
 MenuButtonComponent.ɵfac = function MenuButtonComponent_Factory(t) { return new (t || MenuButtonComponent)(); };
-MenuButtonComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: MenuButtonComponent, selectors: [["app-menu-button"]], outputs: { started: "started", highscore: "highscore" }, decls: 5, vars: 0, consts: [[1, "d-flex", "flex-column", "align-items-center", "mt-3", "menu"], ["type", "button", 1, "btn", "btn-light", "my-1", 3, "click"]], template: function MenuButtonComponent_Template(rf, ctx) { if (rf & 1) {
+MenuButtonComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: MenuButtonComponent, selectors: [["app-menu-button"]], outputs: { started: "started", highscore: "highscore" }, decls: 7, vars: 0, consts: [[1, "d-flex", "flex-column", "align-items-center", "mt-3", "menu"], ["type", "button", 1, "btn", "btn-light", "my-1", 3, "click"]], template: function MenuButtonComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "button", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function MenuButtonComponent_Template_button_click_1_listener() { return ctx.startGame(); });
@@ -759,6 +739,10 @@ MenuButtonComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "button", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function MenuButtonComponent_Template_button_click_3_listener() { return ctx.goToHighscore(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4, "Highscore");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "button", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function MenuButtonComponent_Template_button_click_5_listener() { return ctx.goToGameMenu(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](6, "Game Menu");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } }, styles: [".menu[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  width: 200px !important;\n  background-color: #e67e22c0;\n  color: white;\n}\n\n.menu[_ngcontent-%COMP%]   button[_ngcontent-%COMP%]:hover {\n  background-color: #e67e22;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uXFwuLlxcLi5cXC4uXFwuLlxcbWVudS1idXR0b24uY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSx1QkFBQTtFQUNBLDJCQUFBO0VBQ0EsWUFBQTtBQUNKOztBQUVBO0VBQ0kseUJBQUE7QUFDSiIsImZpbGUiOiJtZW51LWJ1dHRvbi5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5tZW51IGJ1dHRvbiB7XHJcbiAgICB3aWR0aDogMjAwcHggIWltcG9ydGFudDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICNlNjdlMjJjMDtcclxuICAgIGNvbG9yOiB3aGl0ZTtcclxufVxyXG5cclxuLm1lbnUgYnV0dG9uOmhvdmVyIHtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICNlNjdlMjI7XHJcbn0iXX0= */"] });
@@ -796,7 +780,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _hiragana_romaji_timer_hiragana_romaji_timer_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./hiragana-romaji-timer/hiragana-romaji-timer.component */ "BYDN");
 /* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./shared/shared.module */ "PCNd");
 /* harmony import */ var _hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./hiragana-multiple-choice/hiragana-multiple-choice.component */ "TBKY");
-/* harmony import */ var _romaji_multiple_choice_romaji_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./romaji-multiple-choice/romaji-multiple-choice.component */ "e+rr");
+/* harmony import */ var _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./katakana-multiple-choice/katakana-multiple-choice.component */ "n3ry");
 
 
 
@@ -819,7 +803,7 @@ AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector
         _footer_footer_component__WEBPACK_IMPORTED_MODULE_4__["FooterComponent"],
         _hiragana_romaji_timer_hiragana_romaji_timer_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaRomajiTimerComponent"],
         _hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_7__["HiraganaMultipleChoiceComponent"],
-        _romaji_multiple_choice_romaji_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__["RomajiMultipleChoiceComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
+        _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__["KatakanaMultipleChoiceComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
         _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"],
         _shared_shared_module__WEBPACK_IMPORTED_MODULE_6__["SharedModule"]] }); })();
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](AppModule, [{
@@ -830,7 +814,7 @@ AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector
                     _footer_footer_component__WEBPACK_IMPORTED_MODULE_4__["FooterComponent"],
                     _hiragana_romaji_timer_hiragana_romaji_timer_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaRomajiTimerComponent"],
                     _hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_7__["HiraganaMultipleChoiceComponent"],
-                    _romaji_multiple_choice_romaji_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__["RomajiMultipleChoiceComponent"]
+                    _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__["KatakanaMultipleChoiceComponent"]
                 ],
                 imports: [
                     _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -841,6 +825,29 @@ AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector
                 bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
             }]
     }], null, null); })();
+
+
+/***/ }),
+
+/***/ "bPHt":
+/*!***************************************************!*\
+  !*** ./src/app/game/nihongo-base/nihongo-game.ts ***!
+  \***************************************************/
+/*! exports provided: Statuses */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Statuses", function() { return Statuses; });
+var Statuses;
+(function (Statuses) {
+    Statuses[Statuses["Stopped"] = 0] = "Stopped";
+    Statuses[Statuses["Started"] = 1] = "Started";
+    Statuses[Statuses["Menu"] = 2] = "Menu";
+    Statuses[Statuses["Completed"] = 3] = "Completed";
+    Statuses[Statuses["Failed"] = 4] = "Failed";
+    Statuses[Statuses["Highscore"] = 5] = "Highscore";
+})(Statuses || (Statuses = {}));
 
 
 /***/ }),
@@ -912,42 +919,6 @@ HiraganaChoiceComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵ
         }], selected: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"]
         }] }); })();
-
-
-/***/ }),
-
-/***/ "e+rr":
-/*!****************************************************************************!*\
-  !*** ./src/app/romaji-multiple-choice/romaji-multiple-choice.component.ts ***!
-  \****************************************************************************/
-/*! exports provided: RomajiMultipleChoiceComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RomajiMultipleChoiceComponent", function() { return RomajiMultipleChoiceComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-
-
-class RomajiMultipleChoiceComponent {
-    constructor() { }
-    ngOnInit() {
-    }
-}
-RomajiMultipleChoiceComponent.ɵfac = function RomajiMultipleChoiceComponent_Factory(t) { return new (t || RomajiMultipleChoiceComponent)(); };
-RomajiMultipleChoiceComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: RomajiMultipleChoiceComponent, selectors: [["app-romaji-multiple-choice"]], decls: 2, vars: 0, template: function RomajiMultipleChoiceComponent_Template(rf, ctx) { if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "romaji-multiple-choice works!");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    } }, styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJyb21hamktbXVsdGlwbGUtY2hvaWNlLmNvbXBvbmVudC5zY3NzIn0= */"] });
-/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](RomajiMultipleChoiceComponent, [{
-        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
-        args: [{
-                selector: 'app-romaji-multiple-choice',
-                templateUrl: './romaji-multiple-choice.component.html',
-                styleUrls: ['./romaji-multiple-choice.component.scss']
-            }]
-    }], function () { return []; }, null); })();
 
 
 /***/ }),
@@ -1164,8 +1135,17 @@ class FuriganaDb {
         const random = (this.randomizeFurigana(hiragana, tiles));
         return random;
     }
+    static randomKatakana(tiles = 96) {
+        const hiragana = this.table.filter((furigana) => furigana.hasKatakana).map((f) => f);
+        const random = (this.randomizeFurigana(hiragana, tiles));
+        return random;
+    }
     static sortedHiragana(tiles = 96) {
         const hiragana = this.table.filter((furigana) => furigana.hasHiragana).map((f) => f);
+        return hiragana.slice(0, tiles);
+    }
+    static sortedKatakana(tiles = 96) {
+        const hiragana = this.table.filter((furigana) => furigana.hasKatakana).map((f) => f);
         return hiragana.slice(0, tiles);
     }
     static randomizeFurigana(array, size) {
@@ -1291,6 +1271,233 @@ FuriganaDb.table = [
 
 /***/ }),
 
+/***/ "j97u":
+/*!*********************************************************!*\
+  !*** ./src/app/game/nihongo-base/nihongo-scoreboard.ts ***!
+  \*********************************************************/
+/*! exports provided: NihongoScoreboard */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NihongoScoreboard", function() { return NihongoScoreboard; });
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rxjs */ "qCKp");
+
+class NihongoScoreboard {
+    constructor(scoreConfig) {
+        this.lastTime = 0;
+        this.time = 0;
+        this.points = 0;
+        this.errors = 0;
+        this.given = null;
+        this.timerSub = null;
+        this.scoreConfig = null;
+        this.lastTime = 0;
+        this.time = 0;
+        this.points = 0;
+        this.errors = 0;
+        this.given = null;
+        this.timerSub = null;
+        this.scoreConfig = scoreConfig;
+    }
+    start() {
+        this.timerSub = Object(rxjs__WEBPACK_IMPORTED_MODULE_0__["interval"])(1000)
+            .subscribe(x => { this.countdown(); });
+    }
+    stop() {
+        var _a;
+        (_a = this.timerSub) === null || _a === void 0 ? void 0 : _a.unsubscribe();
+    }
+    missed() {
+        var _a, _b;
+        this.errors++;
+        this.points -= (_b = (_a = this.scoreConfig) === null || _a === void 0 ? void 0 : _a.getMissedPoint()) !== null && _b !== void 0 ? _b : 0;
+    }
+    addPoint() {
+        var _a, _b;
+        this.points += (_b = (_a = this.scoreConfig) === null || _a === void 0 ? void 0 : _a.getPoint(this.lastTime, this.time)) !== null && _b !== void 0 ? _b : 0;
+        this.lastTime = this.time;
+    }
+    setGiven(furigana) {
+        this.given = furigana;
+    }
+    get timeNumber() {
+        return this.time;
+    }
+    get timeValue() {
+        const hour = Math.floor(this.time / 3600);
+        const minute = Math.floor((this.time % 3600) / 60);
+        const seconds = Math.floor((this.time % 3600) % 60);
+        return `${this.min2digit(hour)}:${this.min2digit(minute)}:${this.min2digit(seconds)}`;
+    }
+    get pointValue() {
+        return this.points;
+    }
+    get errorValue() {
+        return this.errors;
+    }
+    get givenValue() {
+        return this.given;
+    }
+    countdown() {
+        this.time++;
+    }
+    min2digit(num) {
+        if (num < 10) {
+            return `0${num}`;
+        }
+        else {
+            return `${num}`;
+        }
+    }
+}
+
+
+/***/ }),
+
+/***/ "kktn":
+/*!********************************************************!*\
+  !*** ./src/app/game/nihongo-base/nihongo-game.base.ts ***!
+  \********************************************************/
+/*! exports provided: NihongoGameBase */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NihongoGameBase", function() { return NihongoGameBase; });
+/* harmony import */ var _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../static-db/furigana.db */ "imSe");
+/* harmony import */ var _highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../highscore.list */ "p9ds");
+/* harmony import */ var _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hiragana-romaji-timer.score */ "4lOu");
+/* harmony import */ var _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../nihongo-base/nihongo-game */ "bPHt");
+/* harmony import */ var _nihongo_base_nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../nihongo-base/nihongo-scoreboard */ "j97u");
+
+
+
+
+
+class NihongoGameBase {
+    constructor() {
+        this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomHiragana();
+        this.scoreboard = new _nihongo_base_nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_4__["NihongoScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__["HiraganaRomajiTimerScore"]());
+        this.selected = [];
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Menu;
+        this.multipleChoice = [];
+    }
+    start() {
+        this.selected = [];
+        this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomHiragana(20);
+        this.scoreboard = new _nihongo_base_nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_4__["NihongoScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__["HiraganaRomajiTimerScore"]());
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Started;
+        this.scoreboard.start();
+        this.scoreboard.setGiven(this.chooseFurigana());
+        this.multipleChoice = this.getMultipleChoice();
+    }
+    goToMenu() {
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Menu;
+    }
+    goToHighscore() {
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Highscore;
+    }
+    checkSelected(chosen) {
+        var _a;
+        if (chosen.romaji === ((_a = this.scoreboard.givenValue) === null || _a === void 0 ? void 0 : _a.romaji)) {
+            this.addSelected(chosen);
+            this.scoreboard.addPoint();
+            this.scoreboard.setGiven(this.chooseFurigana());
+            this.multipleChoice = this.getMultipleChoice();
+            if (this.table.length === this.selected.length) {
+                this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Completed;
+                this.saveHighscore();
+                this.scoreboard.stop();
+            }
+        }
+        else {
+            this.scoreboard.missed();
+        }
+    }
+    getTimeValue() {
+        return this.scoreboard.timeNumber;
+    }
+    getTable() {
+        return this.table;
+    }
+    getSelected() {
+        return this.selected.map((furigana) => furigana.duplicate());
+    }
+    getTime() {
+        return this.scoreboard.timeValue;
+    }
+    getPoint() {
+        return this.scoreboard.pointValue;
+    }
+    getError() {
+        return this.scoreboard.errorValue;
+    }
+    getGiven() {
+        return this.scoreboard.givenValue;
+    }
+    get statusValue() {
+        return this.status;
+    }
+    get multipleChoiceValue() {
+        return this.multipleChoice;
+    }
+    get hasStarted() {
+        return this.status === _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Started;
+    }
+    get onMenu() {
+        return this.status === _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Menu;
+    }
+    saveHighscore() {
+        const highscore = new _highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreModel"](this.getPoint(), this.getTimeValue(), this.getError());
+        _highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreList"].addHighscore(highscore, _highscore_list__WEBPACK_IMPORTED_MODULE_1__["Games"].HiraganaMultiple);
+    }
+    getMultipleChoice() {
+        const furiganaSet = [];
+        const givenIndex = Math.floor(Math.random() * 4);
+        while (furiganaSet.length < 4) {
+            if (furiganaSet.length === givenIndex) {
+                if (this.scoreboard.givenValue) {
+                    furiganaSet.push(this.scoreboard.givenValue);
+                }
+            }
+            const furigana = this.randomFurigana(furiganaSet);
+            if (furigana) {
+                furiganaSet.push(furigana);
+            }
+            if (furiganaSet.length === givenIndex) {
+                if (this.scoreboard.givenValue) {
+                    furiganaSet.push(this.scoreboard.givenValue);
+                }
+            }
+        }
+        return furiganaSet;
+    }
+    addSelected(furigana) {
+        this.selected.push(furigana.duplicate());
+    }
+    chooseFurigana() {
+        const table = this.table.filter((f) => {
+            const selected = this.selected.filter((s) => s.romaji === f.romaji);
+            return selected.length === 0;
+        });
+        const index = Math.floor(Math.random() * table.length);
+        return table[index];
+    }
+    randomFurigana(furiganaSet) {
+        const given = this.scoreboard.givenValue;
+        const table = this.table.filter((f) => {
+            const set = furiganaSet.filter((fs) => fs.romaji === f.romaji);
+            return set.length === 0 && f.romaji !== (given === null || given === void 0 ? void 0 : given.romaji);
+        });
+        const index = Math.floor(Math.random() * table.length);
+        return table[index];
+    }
+}
+
+
+/***/ }),
+
 /***/ "m8M7":
 /*!***********************************************************************!*\
   !*** ./src/app/shared/game-final-score/game-final-score.component.ts ***!
@@ -1379,6 +1586,276 @@ GameFinalScoreComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵ
 
 /***/ }),
 
+/***/ "n3ry":
+/*!********************************************************************************!*\
+  !*** ./src/app/katakana-multiple-choice/katakana-multiple-choice.component.ts ***!
+  \********************************************************************************/
+/*! exports provided: KatakanaMultipleChoiceComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KatakanaMultipleChoiceComponent", function() { return KatakanaMultipleChoiceComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _game_highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../game/highscore.list */ "p9ds");
+/* harmony import */ var _game_katakana_multiple_choice_katakana_multiple_choice_game__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../game/katakana-multiple-choice/katakana-multiple-choice.game */ "GTpk");
+/* harmony import */ var _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../game/nihongo-base/nihongo-game */ "bPHt");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../shared/hiragana-choice/hiragana-choice.component */ "bhjN");
+/* harmony import */ var _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../shared/game-menu/game-menu.component */ "hU2R");
+/* harmony import */ var _shared_game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../shared/game-scoreboard/game-scoreboard.component */ "ONAn");
+/* harmony import */ var _shared_game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../shared/game-final-score/game-final-score.component */ "m8M7");
+/* harmony import */ var _shared_game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../shared/game-highscore-list/game-highscore-list.component */ "ws5B");
+
+
+
+
+
+
+
+
+
+
+
+function KatakanaMultipleChoiceComponent_app_hiragana_choice_5_Template(rf, ctx) { if (rf & 1) {
+    const _r7 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "app-hiragana-choice", 9);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("selected", function KatakanaMultipleChoiceComponent_app_hiragana_choice_5_Template_app_hiragana_choice_selected_0_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r7); const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r6.onSelect($event); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const furigana_r5 = ctx.$implicit;
+    const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("furigana", furigana_r5)("isEnabled", ctx_r0.isEnabled())("isVisible", ctx_r0.isVisible());
+} }
+function KatakanaMultipleChoiceComponent_app_game_menu_6_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-game-menu", 10);
+} if (rf & 2) {
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("nihongoGame", ctx_r1.katakanaGame);
+} }
+function KatakanaMultipleChoiceComponent_app_game_scoreboard_7_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-game-scoreboard", 11);
+} if (rf & 2) {
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("nihongoGame", ctx_r2.katakanaGame);
+} }
+function KatakanaMultipleChoiceComponent_app_game_final_score_8_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-game-final-score", 12);
+} if (rf & 2) {
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("nihongoGame", ctx_r3.katakanaGame);
+} }
+function KatakanaMultipleChoiceComponent_app_game_highscore_list_9_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-game-highscore-list", 13);
+} if (rf & 2) {
+    const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("nihongoGame", ctx_r4.katakanaGame)("game", ctx_r4.game);
+} }
+class KatakanaMultipleChoiceComponent {
+    constructor() {
+        this.katakanaGame = new _game_katakana_multiple_choice_katakana_multiple_choice_game__WEBPACK_IMPORTED_MODULE_2__["KatakanaMultipleChoiceGame"]();
+    }
+    ngOnInit() { }
+    get multipleChoiceValue() {
+        return this.katakanaGame.multipleChoiceValue;
+    }
+    get givenKatakana() {
+        var _a, _b;
+        return (_b = (_a = this.katakanaGame.getGiven()) === null || _a === void 0 ? void 0 : _a.katakana) !== null && _b !== void 0 ? _b : '';
+    }
+    get hasStarted() {
+        return this.katakanaGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Started;
+    }
+    get hasCompleted() {
+        return this.katakanaGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Completed;
+    }
+    get onMenu() {
+        return this.katakanaGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Menu;
+    }
+    get completed() {
+        return this.katakanaGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Completed;
+    }
+    get highscore() {
+        return this.katakanaGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Highscore;
+    }
+    get game() {
+        return _game_highscore_list__WEBPACK_IMPORTED_MODULE_1__["Games"].KatakanaMultiple;
+    }
+    isEnabled() {
+        return this.katakanaGame.hasStarted;
+    }
+    isVisible() {
+        return this.katakanaGame.hasStarted;
+    }
+    onSelect(furigana) {
+        this.katakanaGame.checkSelected(furigana);
+    }
+}
+KatakanaMultipleChoiceComponent.ɵfac = function KatakanaMultipleChoiceComponent_Factory(t) { return new (t || KatakanaMultipleChoiceComponent)(); };
+KatakanaMultipleChoiceComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: KatakanaMultipleChoiceComponent, selectors: [["app-katakana-multiple-choice"]], decls: 10, vars: 6, consts: [[1, "d-flex", "flex-column"], [1, "row", "w-100", "mb-5"], [1, "p-2", "mt-2", "text-center", "fw-bold", "display-1"], [1, "row", "w-100"], ["class", "col-3 px-0", 3, "furigana", "isEnabled", "isVisible", "selected", 4, "ngFor", "ngForOf"], ["title", "Choose the Romaji", "subtitle", "Find the equivalent romaji from the given choices", 3, "nihongoGame", 4, "ngIf"], ["type", "hiragana", 3, "nihongoGame", 4, "ngIf"], [3, "nihongoGame", 4, "ngIf"], [3, "nihongoGame", "game", 4, "ngIf"], [1, "col-3", "px-0", 3, "furigana", "isEnabled", "isVisible", "selected"], ["title", "Choose the Romaji", "subtitle", "Find the equivalent romaji from the given choices", 3, "nihongoGame"], ["type", "hiragana", 3, "nihongoGame"], [3, "nihongoGame"], [3, "nihongoGame", "game"]], template: function KatakanaMultipleChoiceComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, KatakanaMultipleChoiceComponent_app_hiragana_choice_5_Template, 1, 3, "app-hiragana-choice", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, KatakanaMultipleChoiceComponent_app_game_menu_6_Template, 1, 1, "app-game-menu", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, KatakanaMultipleChoiceComponent_app_game_scoreboard_7_Template, 1, 1, "app-game-scoreboard", 6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](8, KatakanaMultipleChoiceComponent_app_game_final_score_8_Template, 1, 1, "app-game-final-score", 7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](9, KatakanaMultipleChoiceComponent_app_game_highscore_list_9_Template, 1, 2, "app-game-highscore-list", 8);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.givenKatakana);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.multipleChoiceValue);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.onMenu);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.katakanaGame.hasStarted);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.completed);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.highscore);
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_4__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgIf"], _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaChoiceComponent"], _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_6__["GameMenuComponent"], _shared_game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_7__["GameScoreboardComponent"], _shared_game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_8__["GameFinalScoreComponent"], _shared_game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_9__["GameHighscoreListComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJrYXRha2FuYS1tdWx0aXBsZS1jaG9pY2UuY29tcG9uZW50LnNjc3MifQ== */"] });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](KatakanaMultipleChoiceComponent, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
+        args: [{
+                selector: 'app-katakana-multiple-choice',
+                templateUrl: './katakana-multiple-choice.component.html',
+                styleUrls: ['./katakana-multiple-choice.component.scss']
+            }]
+    }], function () { return []; }, null); })();
+
+
+/***/ }),
+
+/***/ "nTLI":
+/*!*********************************************************************************!*\
+  !*** ./src/app/game/hiragana-multiple-choice/hiragana-multiple-choice.game..ts ***!
+  \*********************************************************************************/
+/*! exports provided: HiraganaMultipleChoiceGame */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HiraganaMultipleChoiceGame", function() { return HiraganaMultipleChoiceGame; });
+/* harmony import */ var _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../static-db/furigana.db */ "imSe");
+/* harmony import */ var _highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../highscore.list */ "p9ds");
+/* harmony import */ var _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hiragana-romaji-timer.score */ "4lOu");
+/* harmony import */ var _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../nihongo-base/nihongo-game */ "bPHt");
+/* harmony import */ var _nihongo_base_nihongo_game_base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../nihongo-base/nihongo-game.base */ "kktn");
+/* harmony import */ var _nihongo_base_nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../nihongo-base/nihongo-scoreboard */ "j97u");
+
+
+
+
+
+
+class HiraganaMultipleChoiceGame extends _nihongo_base_nihongo_game_base__WEBPACK_IMPORTED_MODULE_4__["NihongoGameBase"] {
+    constructor() {
+        super(...arguments);
+        this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomHiragana();
+        this.scoreboard = new _nihongo_base_nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_5__["NihongoScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__["HiraganaRomajiTimerScore"]());
+    }
+    start() {
+        this.selected = [];
+        this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomHiragana(20);
+        this.scoreboard = new _nihongo_base_nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_5__["NihongoScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__["HiraganaRomajiTimerScore"]());
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Started;
+        this.scoreboard.start();
+        this.scoreboard.setGiven(this.chooseFurigana());
+        this.multipleChoice = this.getMultipleChoice();
+    }
+    checkSelected(chosen) {
+        var _a;
+        if (chosen.romaji === ((_a = this.scoreboard.givenValue) === null || _a === void 0 ? void 0 : _a.romaji)) {
+            this.addSelected(chosen);
+            this.scoreboard.addPoint();
+            this.scoreboard.setGiven(this.chooseFurigana());
+            this.multipleChoice = this.getMultipleChoice();
+            if (this.table.length === this.selected.length) {
+                this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Completed;
+                this.saveHighscore();
+                this.scoreboard.stop();
+            }
+        }
+        else {
+            this.scoreboard.missed();
+        }
+    }
+    saveHighscore() {
+        const highscore = new _highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreModel"](this.getPoint(), this.getTimeValue(), this.getError());
+        _highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreList"].addHighscore(highscore, _highscore_list__WEBPACK_IMPORTED_MODULE_1__["Games"].HiraganaMultiple);
+    }
+}
+
+
+/***/ }),
+
+/***/ "oDhR":
+/*!*****************************************************************!*\
+  !*** ./src/app/shared/game-selector/game-selector.component.ts ***!
+  \*****************************************************************/
+/*! exports provided: GameSelectorComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameSelectorComponent", function() { return GameSelectorComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var src_app_game_highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/game/highscore.list */ "p9ds");
+
+
+
+class GameSelectorComponent {
+    constructor() {
+        this.selected = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.availableGames = src_app_game_highscore_list__WEBPACK_IMPORTED_MODULE_1__["Games"];
+    }
+    selectGame(selection) {
+        this.selected.emit(selection);
+    }
+}
+GameSelectorComponent.ɵfac = function GameSelectorComponent_Factory(t) { return new (t || GameSelectorComponent)(); };
+GameSelectorComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: GameSelectorComponent, selectors: [["app-game-selector"]], outputs: { selected: "selected" }, decls: 10, vars: 0, consts: [[1, "d-flex", "flex-column"], [1, "overlay", "d-flex", "flex-column", "justify-content-center", "align-items-center", "bg-orange"], [1, "menu", "p-5", "d-flex", "flex-column", "justify-content-center", "align-items-center"], [1, "display-3"], [1, "mt-3", "d-flex", "flex-column"], ["type", "button", 1, "btn", "btn-light", "my-1", 3, "click"]], template: function GameSelectorComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "h1", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4, "Game Menu");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "button", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function GameSelectorComponent_Template_button_click_6_listener() { return ctx.selectGame(ctx.availableGames.HiraganaMultiple); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7, " Hiragana - Romaji ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "button", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function GameSelectorComponent_Template_button_click_8_listener() { return ctx.selectGame(ctx.availableGames.KatakanaMultiple); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](9, " Katakana - Romaji ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    } }, styles: [".overlay[_ngcontent-%COMP%] {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n\n.bg-orange[_ngcontent-%COMP%] {\n  background-color: #e67e2280;\n}\n\n.details[_ngcontent-%COMP%] {\n  width: 300px;\n}\n\n.menu[_ngcontent-%COMP%] {\n  width: 100%;\n  text-align: center;\n  background-color: white;\n}\n\n.menu[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  width: 300px !important;\n  background-color: #e67e22c0;\n  color: white;\n}\n\n.menu[_ngcontent-%COMP%]   button[_ngcontent-%COMP%]:hover {\n  background-color: #e67e22;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uXFwuLlxcLi5cXC4uXFxnYW1lLXNlbGVjdG9yLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksZUFBQTtFQUNBLFdBQUE7RUFDQSxZQUFBO0VBQ0EsTUFBQTtFQUNBLE9BQUE7RUFDQSxRQUFBO0VBQ0EsU0FBQTtBQUNKOztBQUVBO0VBQ0ksMkJBQUE7QUFDSjs7QUFFQTtFQUNJLFlBQUE7QUFDSjs7QUFFQTtFQUNJLFdBQUE7RUFDQSxrQkFBQTtFQUNBLHVCQUFBO0FBQ0o7O0FBQ0k7RUFDSSx1QkFBQTtFQUNBLDJCQUFBO0VBQ0EsWUFBQTtBQUNSOztBQUVJO0VBQ0kseUJBQUE7QUFBUiIsImZpbGUiOiJnYW1lLXNlbGVjdG9yLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm92ZXJsYXkge1xyXG4gICAgcG9zaXRpb246IGZpeGVkO1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBoZWlnaHQ6IDEwMCU7XHJcbiAgICB0b3A6IDA7XHJcbiAgICBsZWZ0OiAwO1xyXG4gICAgcmlnaHQ6IDA7XHJcbiAgICBib3R0b206IDA7XHJcbn1cclxuXHJcbi5iZy1vcmFuZ2Uge1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2U2N2UyMjgwO1xyXG59XHJcblxyXG4uZGV0YWlscyB7XHJcbiAgICB3aWR0aDogMzAwcHg7XHJcbn1cclxuXHJcbi5tZW51IHtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XHJcblxyXG4gICAgYnV0dG9uIHtcclxuICAgICAgICB3aWR0aDogMzAwcHggIWltcG9ydGFudDtcclxuICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZTY3ZTIyYzA7XHJcbiAgICAgICAgY29sb3I6IHdoaXRlO1xyXG4gICAgfVxyXG5cclxuICAgIGJ1dHRvbjpob3ZlciB7XHJcbiAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogI2U2N2UyMjtcclxuICAgIH1cclxufSJdfQ== */"] });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](GameSelectorComponent, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
+        args: [{
+                selector: 'app-game-selector',
+                templateUrl: './game-selector.component.html',
+                styleUrls: ['./game-selector.component.scss']
+            }]
+    }], function () { return []; }, { selected: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"]
+        }] }); })();
+
+
+/***/ }),
+
 /***/ "p9ds":
 /*!****************************************!*\
   !*** ./src/app/game/highscore.list.ts ***!
@@ -1395,7 +1872,8 @@ __webpack_require__.r(__webpack_exports__);
 var Games;
 (function (Games) {
     Games["HiraganaMultiple"] = "HiraganaMultiple";
-    Games["RomajiMultiple"] = "RomajiMultiple";
+    Games["KatakanaMultiple"] = "KatakanaMultiple";
+    Games["NoSelection"] = "NoSelection";
 })(Games || (Games = {}));
 class HighscoreList {
     static getHighscores() {
@@ -1495,90 +1973,6 @@ class HighscoreModel {
 
 /***/ }),
 
-/***/ "qCtN":
-/*!********************************************!*\
-  !*** ./src/app/game/nihongo-scoreboard.ts ***!
-  \********************************************/
-/*! exports provided: NihongoScoreboard */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NihongoScoreboard", function() { return NihongoScoreboard; });
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rxjs */ "qCKp");
-
-class NihongoScoreboard {
-    constructor(scoreConfig) {
-        this.lastTime = 0;
-        this.time = 0;
-        this.points = 0;
-        this.errors = 0;
-        this.given = null;
-        this.timerSub = null;
-        this.scoreConfig = null;
-        this.lastTime = 0;
-        this.time = 0;
-        this.points = 0;
-        this.errors = 0;
-        this.given = null;
-        this.timerSub = null;
-        this.scoreConfig = scoreConfig;
-    }
-    start() {
-        this.timerSub = Object(rxjs__WEBPACK_IMPORTED_MODULE_0__["interval"])(1000)
-            .subscribe(x => { this.countdown(); });
-    }
-    stop() {
-        var _a;
-        (_a = this.timerSub) === null || _a === void 0 ? void 0 : _a.unsubscribe();
-    }
-    missed() {
-        var _a, _b;
-        this.errors++;
-        this.points -= (_b = (_a = this.scoreConfig) === null || _a === void 0 ? void 0 : _a.getMissedPoint()) !== null && _b !== void 0 ? _b : 0;
-    }
-    addPoint() {
-        var _a, _b;
-        this.points += (_b = (_a = this.scoreConfig) === null || _a === void 0 ? void 0 : _a.getPoint(this.lastTime, this.time)) !== null && _b !== void 0 ? _b : 0;
-        this.lastTime = this.time;
-    }
-    setGiven(furigana) {
-        this.given = furigana;
-    }
-    get timeNumber() {
-        return this.time;
-    }
-    get timeValue() {
-        const hour = Math.floor(this.time / 3600);
-        const minute = Math.floor((this.time % 3600) / 60);
-        const seconds = Math.floor((this.time % 3600) % 60);
-        return `${this.min2digit(hour)}:${this.min2digit(minute)}:${this.min2digit(seconds)}`;
-    }
-    get pointValue() {
-        return this.points;
-    }
-    get errorValue() {
-        return this.errors;
-    }
-    get givenValue() {
-        return this.given;
-    }
-    countdown() {
-        this.time++;
-    }
-    min2digit(num) {
-        if (num < 10) {
-            return `0${num}`;
-        }
-        else {
-            return `${num}`;
-        }
-    }
-}
-
-
-/***/ }),
-
 /***/ "vY5A":
 /*!***************************************!*\
   !*** ./src/app/app-routing.module.ts ***!
@@ -1624,8 +2018,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HiraganaRomajiTimerGame", function() { return HiraganaRomajiTimerGame; });
 /* harmony import */ var _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../static-db/furigana.db */ "imSe");
 /* harmony import */ var _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hiragana-romaji-timer.score */ "4lOu");
-/* harmony import */ var _nihongo_game__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nihongo-game */ "5fwx");
-/* harmony import */ var _nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./nihongo-scoreboard */ "qCtN");
+/* harmony import */ var _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nihongo-base/nihongo-game */ "bPHt");
+/* harmony import */ var _nihongo_base_nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./nihongo-base/nihongo-scoreboard */ "j97u");
 
 
 
@@ -1633,24 +2027,24 @@ __webpack_require__.r(__webpack_exports__);
 class HiraganaRomajiTimerGame {
     constructor() {
         this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomHiragana();
-        this.scoreboard = new _nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_3__["NihongoScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_1__["HiraganaRomajiTimerScore"]());
+        this.scoreboard = new _nihongo_base_nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_3__["NihongoScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_1__["HiraganaRomajiTimerScore"]());
         this.selected = [];
-        this.status = _nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Menu;
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Menu;
         this.multipleChoiceValue = [];
     }
     start() {
         this.selected = [];
         this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomHiragana(20);
-        this.scoreboard = new _nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_3__["NihongoScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_1__["HiraganaRomajiTimerScore"]());
-        this.status = _nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Started;
+        this.scoreboard = new _nihongo_base_nihongo_scoreboard__WEBPACK_IMPORTED_MODULE_3__["NihongoScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_1__["HiraganaRomajiTimerScore"]());
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Started;
         this.scoreboard.start();
         this.chooseFurigana();
     }
     goToMenu() {
-        this.status = _nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Menu;
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Menu;
     }
     goToHighscore() {
-        this.status = _nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Highscore;
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Highscore;
     }
     checkSelected(chosen) {
         var _a;
@@ -1659,14 +2053,14 @@ class HiraganaRomajiTimerGame {
             this.scoreboard.addPoint();
             this.chooseFurigana();
             if (this.table.length === this.selected.length) {
-                this.status = _nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Completed;
+                this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Completed;
                 this.scoreboard.stop();
             }
         }
         else {
             this.scoreboard.missed();
             if (this.scoreboard.errorValue >= 3) {
-                this.status = _nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Failed;
+                this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Failed;
                 this.scoreboard.stop();
             }
         }
@@ -1696,10 +2090,10 @@ class HiraganaRomajiTimerGame {
         return this.status;
     }
     get hasStarted() {
-        return this.status === _nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Started;
+        return this.status === _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Started;
     }
     get onMenu() {
-        return this.status === _nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Menu;
+        return this.status === _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Menu;
     }
     addSelected(furigana) {
         this.selected.push(furigana.duplicate());
