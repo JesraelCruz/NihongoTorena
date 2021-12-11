@@ -1,5 +1,51 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["main"],{
 
+/***/ "+gX0":
+/*!************************************************************************************!*\
+  !*** ./src/app/game/vocabulary-multiple-choice/vocabulary-multiple-choice.game.ts ***!
+  \************************************************************************************/
+/*! exports provided: VocabularyMultipleChoiceGame */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VocabularyMultipleChoiceGame", function() { return VocabularyMultipleChoiceGame; });
+/* harmony import */ var _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../static-db/furigana.db */ "imSe");
+/* harmony import */ var _highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../highscore.list */ "p9ds");
+/* harmony import */ var _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hiragana-romaji-timer.score */ "4lOu");
+/* harmony import */ var _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../nihongo-base/nihongo-game */ "bPHt");
+/* harmony import */ var _vocabulary_game_base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./vocabulary-game.base */ "maQn");
+/* harmony import */ var _vocabulary_scoreboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./vocabulary-scoreboard */ "jUhi");
+
+
+
+
+
+
+class VocabularyMultipleChoiceGame extends _vocabulary_game_base__WEBPACK_IMPORTED_MODULE_4__["VocabularyGameBase"] {
+    constructor() {
+        super(...arguments);
+        this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomVocabulary();
+        this.scoreboard = new _vocabulary_scoreboard__WEBPACK_IMPORTED_MODULE_5__["VocabularyScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__["HiraganaRomajiTimerScore"]());
+    }
+    start() {
+        this.selected = [];
+        this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomVocabulary(20);
+        this.scoreboard = new _vocabulary_scoreboard__WEBPACK_IMPORTED_MODULE_5__["VocabularyScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__["HiraganaRomajiTimerScore"]());
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Started;
+        this.scoreboard.start();
+        this.scoreboard.setGiven(this.chooseFurigana());
+        this.multipleChoice = this.getMultipleChoice();
+    }
+    saveHighscore() {
+        const highscore = new _highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreModel"](this.getPoint(), this.getTimeValue(), this.getError());
+        _highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreList"].addHighscore(highscore, _highscore_list__WEBPACK_IMPORTED_MODULE_1__["Games"].VocabularyMultiple);
+    }
+}
+
+
+/***/ }),
+
 /***/ 0:
 /*!***************************!*\
   !*** multi ./src/main.ts ***!
@@ -8,6 +54,157 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(/*! D:\Nihongo\nihongo-torena\src\main.ts */"zUnb");
+
+
+/***/ }),
+
+/***/ "0oZX":
+/*!************************************************************************************!*\
+  !*** ./src/app/vocabulary-multiple-choice/vocabulary-multiple-choice.component.ts ***!
+  \************************************************************************************/
+/*! exports provided: VocabularyMultipleChoiceComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VocabularyMultipleChoiceComponent", function() { return VocabularyMultipleChoiceComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _game_highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../game/highscore.list */ "p9ds");
+/* harmony import */ var _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../game/nihongo-base/nihongo-game */ "bPHt");
+/* harmony import */ var _game_vocabulary_multiple_choice_vocabulary_multiple_choice_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../game/vocabulary-multiple-choice/vocabulary-multiple-choice.game */ "+gX0");
+/* harmony import */ var _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../model/vocabulary.model */ "8YdX");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../shared/hiragana-choice/hiragana-choice.component */ "bhjN");
+/* harmony import */ var _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../shared/game-menu/game-menu.component */ "hU2R");
+/* harmony import */ var _shared_game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../shared/game-scoreboard/game-scoreboard.component */ "ONAn");
+/* harmony import */ var _shared_game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../shared/game-final-score/game-final-score.component */ "m8M7");
+/* harmony import */ var _shared_game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../shared/game-highscore-list/game-highscore-list.component */ "ws5B");
+
+
+
+
+
+
+
+
+
+
+
+
+function VocabularyMultipleChoiceComponent_app_hiragana_choice_5_Template(rf, ctx) { if (rf & 1) {
+    const _r7 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "app-hiragana-choice", 9);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("selected", function VocabularyMultipleChoiceComponent_app_hiragana_choice_5_Template_app_hiragana_choice_selected_0_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r7); const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r6.onSelect($event); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const furigana_r5 = ctx.$implicit;
+    const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("furigana", furigana_r5)("isEnabled", ctx_r0.isEnabled())("isVisible", ctx_r0.isVisible());
+} }
+function VocabularyMultipleChoiceComponent_app_game_menu_6_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-game-menu", 10);
+} if (rf & 2) {
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("nihongoGame", ctx_r1.vocabularyGame);
+} }
+function VocabularyMultipleChoiceComponent_app_game_scoreboard_7_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-game-scoreboard", 11);
+} if (rf & 2) {
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("nihongoGame", ctx_r2.vocabularyGame);
+} }
+function VocabularyMultipleChoiceComponent_app_game_final_score_8_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-game-final-score", 12);
+} if (rf & 2) {
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("nihongoGame", ctx_r3.vocabularyGame);
+} }
+function VocabularyMultipleChoiceComponent_app_game_highscore_list_9_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-game-highscore-list", 13);
+} if (rf & 2) {
+    const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("nihongoGame", ctx_r4.vocabularyGame)("game", ctx_r4.game);
+} }
+class VocabularyMultipleChoiceComponent {
+    constructor() {
+        this.vocabularyGame = new _game_vocabulary_multiple_choice_vocabulary_multiple_choice_game__WEBPACK_IMPORTED_MODULE_3__["VocabularyMultipleChoiceGame"]();
+    }
+    ngOnInit() { }
+    get multipleChoiceValue() {
+        return this.vocabularyGame.multipleChoiceValue;
+    }
+    get given() {
+        var _a, _b;
+        return (_b = (_a = this.vocabularyGame.getGiven()) === null || _a === void 0 ? void 0 : _a.kana) !== null && _b !== void 0 ? _b : '';
+    }
+    get hasStarted() {
+        return this.vocabularyGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Started;
+    }
+    get hasCompleted() {
+        return this.vocabularyGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Completed;
+    }
+    get onMenu() {
+        return this.vocabularyGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Menu;
+    }
+    get completed() {
+        return this.vocabularyGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Completed;
+    }
+    get highscore() {
+        return this.vocabularyGame.statusValue === _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_2__["Statuses"].Highscore;
+    }
+    get game() {
+        return _game_highscore_list__WEBPACK_IMPORTED_MODULE_1__["Games"].VocabularyMultiple;
+    }
+    isEnabled() {
+        return this.vocabularyGame.hasStarted;
+    }
+    isVisible() {
+        return this.vocabularyGame.hasStarted;
+    }
+    onSelect(furigana) {
+        if (furigana instanceof _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_4__["VocabularyModel"]) {
+            this.vocabularyGame.checkSelected(furigana);
+        }
+    }
+}
+VocabularyMultipleChoiceComponent.ɵfac = function VocabularyMultipleChoiceComponent_Factory(t) { return new (t || VocabularyMultipleChoiceComponent)(); };
+VocabularyMultipleChoiceComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: VocabularyMultipleChoiceComponent, selectors: [["app-vocabulary-multiple-choice"]], decls: 10, vars: 6, consts: [[1, "d-flex", "flex-column"], [1, "row", "w-100", "mb-5"], [1, "p-2", "mt-2", "text-center", "fw-bold", "display-1"], [1, "row", "w-100"], ["class", "col-3 px-0", 3, "furigana", "isEnabled", "isVisible", "selected", 4, "ngFor", "ngForOf"], ["title", "Find the meaning", "subtitle", "Find the meaning of the word/phrase", 3, "nihongoGame", 4, "ngIf"], ["type", "vocabulary", 3, "nihongoGame", 4, "ngIf"], [3, "nihongoGame", 4, "ngIf"], [3, "nihongoGame", "game", 4, "ngIf"], [1, "col-3", "px-0", 3, "furigana", "isEnabled", "isVisible", "selected"], ["title", "Find the meaning", "subtitle", "Find the meaning of the word/phrase", 3, "nihongoGame"], ["type", "vocabulary", 3, "nihongoGame"], [3, "nihongoGame"], [3, "nihongoGame", "game"]], template: function VocabularyMultipleChoiceComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, VocabularyMultipleChoiceComponent_app_hiragana_choice_5_Template, 1, 3, "app-hiragana-choice", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, VocabularyMultipleChoiceComponent_app_game_menu_6_Template, 1, 1, "app-game-menu", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, VocabularyMultipleChoiceComponent_app_game_scoreboard_7_Template, 1, 1, "app-game-scoreboard", 6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](8, VocabularyMultipleChoiceComponent_app_game_final_score_8_Template, 1, 1, "app-game-final-score", 7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](9, VocabularyMultipleChoiceComponent_app_game_highscore_list_9_Template, 1, 2, "app-game-highscore-list", 8);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.given);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.multipleChoiceValue);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.onMenu);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.vocabularyGame.hasStarted);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.completed);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.highscore);
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_5__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["NgIf"], _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_6__["HiraganaChoiceComponent"], _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_7__["GameMenuComponent"], _shared_game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_8__["GameScoreboardComponent"], _shared_game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_9__["GameFinalScoreComponent"], _shared_game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_10__["GameHighscoreListComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJ2b2NhYnVsYXJ5LW11bHRpcGxlLWNob2ljZS5jb21wb25lbnQuc2NzcyJ9 */"] });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](VocabularyMultipleChoiceComponent, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
+        args: [{
+                selector: 'app-vocabulary-multiple-choice',
+                templateUrl: './vocabulary-multiple-choice.component.html',
+                styleUrls: ['./vocabulary-multiple-choice.component.scss']
+            }]
+    }], function () { return []; }, null); })();
 
 
 /***/ }),
@@ -55,6 +252,51 @@ __webpack_require__.r(__webpack_exports__);
 class AppGlobal {
 }
 AppGlobal.gameSelected = _highscore_list__WEBPACK_IMPORTED_MODULE_0__["Games"].NoSelection;
+
+
+/***/ }),
+
+/***/ "8YdX":
+/*!*******************************************!*\
+  !*** ./src/app/model/vocabulary.model.ts ***!
+  \*******************************************/
+/*! exports provided: VocabularyModel */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VocabularyModel", function() { return VocabularyModel; });
+class VocabularyModel {
+    constructor(furigana, meaning, isKatakana = false) {
+        this.furigana = furigana;
+        this.meaning = meaning;
+        this.isKatakana = isKatakana;
+    }
+    get kana() {
+        if (this.isKatakana) {
+            return this.katakana;
+        }
+        else {
+            return this.hiragana;
+        }
+    }
+    get hiragana() {
+        return this.furigana.map(value => {
+            return value.hiragana;
+        }).join('/');
+    }
+    get katakana() {
+        return this.furigana.map(value => {
+            return value.katakana;
+        }).join('/');
+    }
+    get allMeaning() {
+        return this.meaning.join(', ');
+    }
+    duplicate() {
+        return new VocabularyModel(this.furigana, this.meaning);
+    }
+}
 
 
 /***/ }),
@@ -195,7 +437,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var wanakana__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(wanakana__WEBPACK_IMPORTED_MODULE_0__);
 
 class FuriganaModel {
-    constructor(romaji, hasKatakana = true, hasHiragana = true) {
+    constructor(romaji, hasHiragana = true, hasKatakana = true) {
         this.romaji = romaji;
         this.hasKatakana = hasKatakana;
         this.hasHiragana = hasHiragana;
@@ -224,7 +466,7 @@ class FuriganaModel {
         return FuriganaModel.toKatakana(this.romaji);
     }
     duplicate() {
-        return new FuriganaModel(this.romaji, this.hasKatakana, this.hasHiragana);
+        return new FuriganaModel(this.romaji, this.hasHiragana, this.hasKatakana);
     }
 }
 
@@ -305,6 +547,10 @@ class KatakanaMultipleChoiceGame extends _nihongo_base_nihongo_game_base__WEBPAC
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameScoreboardComponent", function() { return GameScoreboardComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var src_app_game_nihongo_base_nihongo_game_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/game/nihongo-base/nihongo-game.base */ "kktn");
+/* harmony import */ var src_app_game_vocabulary_multiple_choice_vocabulary_game_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/game/vocabulary-multiple-choice/vocabulary-game.base */ "maQn");
+
+
 
 
 class GameScoreboardComponent {
@@ -318,13 +564,22 @@ class GameScoreboardComponent {
         return (_b = (_a = this.nihongoGame) === null || _a === void 0 ? void 0 : _a.getTime()) !== null && _b !== void 0 ? _b : '00:00:00';
     }
     get givenBoard() {
-        var _a, _b, _c, _d, _e, _f;
-        if (this.type === 'romaji') {
-            return (_c = (_b = (_a = this.nihongoGame) === null || _a === void 0 ? void 0 : _a.getGiven()) === null || _b === void 0 ? void 0 : _b.romaji) !== null && _c !== void 0 ? _c : '';
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+        if (this.nihongoGame instanceof src_app_game_vocabulary_multiple_choice_vocabulary_game_base__WEBPACK_IMPORTED_MODULE_2__["VocabularyGameBase"]) {
+            return (_c = (_b = (_a = this.nihongoGame) === null || _a === void 0 ? void 0 : _a.getGiven()) === null || _b === void 0 ? void 0 : _b.kana) !== null && _c !== void 0 ? _c : '';
         }
-        else {
-            return (_f = (_e = (_d = this.nihongoGame) === null || _d === void 0 ? void 0 : _d.getGiven()) === null || _e === void 0 ? void 0 : _e.hiragana) !== null && _f !== void 0 ? _f : '';
+        else if (this.nihongoGame instanceof src_app_game_nihongo_base_nihongo_game_base__WEBPACK_IMPORTED_MODULE_1__["NihongoGameBase"]) {
+            if (this.type === 'romaji') {
+                return (_f = (_e = (_d = this.nihongoGame) === null || _d === void 0 ? void 0 : _d.getGiven()) === null || _e === void 0 ? void 0 : _e.romaji) !== null && _f !== void 0 ? _f : '';
+            }
+            else if (this.type === 'katakana') {
+                return (_j = (_h = (_g = this.nihongoGame) === null || _g === void 0 ? void 0 : _g.getGiven()) === null || _h === void 0 ? void 0 : _h.katakana) !== null && _j !== void 0 ? _j : '';
+            }
+            else {
+                return (_m = (_l = (_k = this.nihongoGame) === null || _k === void 0 ? void 0 : _k.getGiven()) === null || _l === void 0 ? void 0 : _l.hiragana) !== null && _m !== void 0 ? _m : '';
+            }
         }
+        return '';
     }
     get errorBoard() {
         var _a, _b;
@@ -400,6 +655,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./game-highscore-list/game-highscore-list.component */ "ws5B");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/platform-browser */ "jhN1");
 /* harmony import */ var _game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./game-selector/game-selector.component */ "oDhR");
+/* harmony import */ var _choice_choice_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./choice/choice.component */ "STKt");
+
 
 
 
@@ -424,7 +681,8 @@ SharedModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjec
         _hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaChoiceComponent"],
         _game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_6__["GameFinalScoreComponent"],
         _game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_7__["GameHighscoreListComponent"],
-        _game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_9__["GameSelectorComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_8__["BrowserModule"]], exports: [_shared_hiragana_tile_hiragana_tile_component__WEBPACK_IMPORTED_MODULE_1__["HiraganaTileComponent"],
+        _game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_9__["GameSelectorComponent"],
+        _choice_choice_component__WEBPACK_IMPORTED_MODULE_10__["ChoiceComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_8__["BrowserModule"]], exports: [_shared_hiragana_tile_hiragana_tile_component__WEBPACK_IMPORTED_MODULE_1__["HiraganaTileComponent"],
         _game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_2__["GameMenuComponent"],
         _game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_4__["GameScoreboardComponent"],
         _hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaChoiceComponent"],
@@ -445,7 +703,8 @@ SharedModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjec
                     _hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaChoiceComponent"],
                     _game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_6__["GameFinalScoreComponent"],
                     _game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_7__["GameHighscoreListComponent"],
-                    _game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_9__["GameSelectorComponent"]
+                    _game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_9__["GameSelectorComponent"],
+                    _choice_choice_component__WEBPACK_IMPORTED_MODULE_10__["ChoiceComponent"]
                 ],
                 exports: [
                     _shared_hiragana_tile_hiragana_tile_component__WEBPACK_IMPORTED_MODULE_1__["HiraganaTileComponent"],
@@ -458,6 +717,42 @@ SharedModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjec
                 ]
             }]
     }], null, null); })();
+
+
+/***/ }),
+
+/***/ "STKt":
+/*!***************************************************!*\
+  !*** ./src/app/shared/choice/choice.component.ts ***!
+  \***************************************************/
+/*! exports provided: ChoiceComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChoiceComponent", function() { return ChoiceComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+
+
+class ChoiceComponent {
+    constructor() { }
+    ngOnInit() {
+    }
+}
+ChoiceComponent.ɵfac = function ChoiceComponent_Factory(t) { return new (t || ChoiceComponent)(); };
+ChoiceComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ChoiceComponent, selectors: [["app-choice"]], decls: 2, vars: 0, template: function ChoiceComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "choice works!");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    } }, styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjaG9pY2UuY29tcG9uZW50LnNjc3MifQ== */"] });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ChoiceComponent, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
+        args: [{
+                selector: 'app-choice',
+                templateUrl: './choice.component.html',
+                styleUrls: ['./choice.component.scss']
+            }]
+    }], function () { return []; }, null); })();
 
 
 /***/ }),
@@ -480,6 +775,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./shared/game-selector/game-selector.component */ "oDhR");
 /* harmony import */ var _hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./hiragana-multiple-choice/hiragana-multiple-choice.component */ "TBKY");
 /* harmony import */ var _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./katakana-multiple-choice/katakana-multiple-choice.component */ "n3ry");
+/* harmony import */ var _vocabulary_multiple_choice_vocabulary_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./vocabulary-multiple-choice/vocabulary-multiple-choice.component */ "0oZX");
+
 
 
 
@@ -490,9 +787,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function AppComponent_app_game_selector_2_Template(rf, ctx) { if (rf & 1) {
-    const _r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    const _r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "app-game-selector", 4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("selected", function AppComponent_app_game_selector_2_Template_app_game_selector_selected_0_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r4); const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r3.selectGame($event); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("selected", function AppComponent_app_game_selector_2_Template_app_game_selector_selected_0_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r5); const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r4.selectGame($event); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
 function AppComponent_app_hiragana_multiple_choice_3_Template(rf, ctx) { if (rf & 1) {
@@ -500,6 +797,9 @@ function AppComponent_app_hiragana_multiple_choice_3_Template(rf, ctx) { if (rf 
 } }
 function AppComponent_app_katakana_multiple_choice_4_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-katakana-multiple-choice", 5);
+} }
+function AppComponent_app_vocabulary_multiple_choice_5_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-vocabulary-multiple-choice", 5);
 } }
 class AppComponent {
     constructor() {
@@ -517,14 +817,15 @@ class AppComponent {
     }
 }
 AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(); };
-AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], decls: 6, vars: 4, consts: [[1, "d-flex", "flex-column", "min-height-100"], [1, "container", "flex-grow-1", "d-flex", "flex-column", "justify-content-center", 3, "ngSwitch"], ["class", "d-flex flex-column justify-content-center", 3, "selected", 4, "ngSwitchCase"], ["class", "d-flex flex-column justify-content-center", 4, "ngSwitchCase"], [1, "d-flex", "flex-column", "justify-content-center", 3, "selected"], [1, "d-flex", "flex-column", "justify-content-center"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
+AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], decls: 7, vars: 5, consts: [[1, "d-flex", "flex-column", "min-height-100"], [1, "container", "flex-grow-1", "d-flex", "flex-column", "justify-content-center", 3, "ngSwitch"], ["class", "d-flex flex-column justify-content-center", 3, "selected", 4, "ngSwitchCase"], ["class", "d-flex flex-column justify-content-center", 4, "ngSwitchCase"], [1, "d-flex", "flex-column", "justify-content-center", 3, "selected"], [1, "d-flex", "flex-column", "justify-content-center"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, AppComponent_app_game_selector_2_Template, 1, 0, "app-game-selector", 2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, AppComponent_app_hiragana_multiple_choice_3_Template, 1, 0, "app-hiragana-multiple-choice", 3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](4, AppComponent_app_katakana_multiple_choice_4_Template, 1, 0, "app-katakana-multiple-choice", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, AppComponent_app_vocabulary_multiple_choice_5_Template, 1, 0, "app-vocabulary-multiple-choice", 3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "app-footer");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](6, "app-footer");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
@@ -535,7 +836,9 @@ AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCompo
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngSwitchCase", ctx.availableGames.HiraganaMultiple);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngSwitchCase", ctx.availableGames.KatakanaMultiple);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgSwitch"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgSwitchCase"], _footer_footer_component__WEBPACK_IMPORTED_MODULE_4__["FooterComponent"], _shared_game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_5__["GameSelectorComponent"], _hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_6__["HiraganaMultipleChoiceComponent"], _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_7__["KatakanaMultipleChoiceComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhcHAuY29tcG9uZW50LnNjc3MifQ== */"] });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngSwitchCase", ctx.availableGames.VocabularyMultiple);
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgSwitch"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgSwitchCase"], _footer_footer_component__WEBPACK_IMPORTED_MODULE_4__["FooterComponent"], _shared_game_selector_game_selector_component__WEBPACK_IMPORTED_MODULE_5__["GameSelectorComponent"], _hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_6__["HiraganaMultipleChoiceComponent"], _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_7__["KatakanaMultipleChoiceComponent"], _vocabulary_multiple_choice_vocabulary_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__["VocabularyMultipleChoiceComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhcHAuY29tcG9uZW50LnNjc3MifQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AppComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -562,12 +865,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _game_highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../game/highscore.list */ "p9ds");
 /* harmony import */ var _game_hiragana_multiple_choice_hiragana_multiple_choice_game___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../game/hiragana-multiple-choice/hiragana-multiple-choice.game. */ "nTLI");
 /* harmony import */ var _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../game/nihongo-base/nihongo-game */ "bPHt");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "ofXK");
-/* harmony import */ var _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../shared/hiragana-choice/hiragana-choice.component */ "bhjN");
-/* harmony import */ var _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../shared/game-menu/game-menu.component */ "hU2R");
-/* harmony import */ var _shared_game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../shared/game-scoreboard/game-scoreboard.component */ "ONAn");
-/* harmony import */ var _shared_game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../shared/game-final-score/game-final-score.component */ "m8M7");
-/* harmony import */ var _shared_game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../shared/game-highscore-list/game-highscore-list.component */ "ws5B");
+/* harmony import */ var _model_furigana_model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../model/furigana.model */ "BtRM");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../shared/hiragana-choice/hiragana-choice.component */ "bhjN");
+/* harmony import */ var _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../shared/game-menu/game-menu.component */ "hU2R");
+/* harmony import */ var _shared_game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../shared/game-scoreboard/game-scoreboard.component */ "ONAn");
+/* harmony import */ var _shared_game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../shared/game-final-score/game-final-score.component */ "m8M7");
+/* harmony import */ var _shared_game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../shared/game-highscore-list/game-highscore-list.component */ "ws5B");
+
 
 
 
@@ -650,7 +955,9 @@ class HiraganaMultipleChoiceComponent {
         return this.hiraganaGame.hasStarted;
     }
     onSelect(furigana) {
-        this.hiraganaGame.checkSelected(furigana);
+        if (furigana instanceof _model_furigana_model__WEBPACK_IMPORTED_MODULE_4__["FuriganaModel"]) {
+            this.hiraganaGame.checkSelected(furigana);
+        }
     }
 }
 HiraganaMultipleChoiceComponent.ɵfac = function HiraganaMultipleChoiceComponent_Factory(t) { return new (t || HiraganaMultipleChoiceComponent)(); };
@@ -682,7 +989,7 @@ HiraganaMultipleChoiceComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.completed);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.highscore);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_4__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgIf"], _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaChoiceComponent"], _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_6__["GameMenuComponent"], _shared_game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_7__["GameScoreboardComponent"], _shared_game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_8__["GameFinalScoreComponent"], _shared_game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_9__["GameHighscoreListComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJoaXJhZ2FuYS1tdWx0aXBsZS1jaG9pY2UuY29tcG9uZW50LnNjc3MifQ== */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_5__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["NgIf"], _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_6__["HiraganaChoiceComponent"], _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_7__["GameMenuComponent"], _shared_game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_8__["GameScoreboardComponent"], _shared_game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_9__["GameFinalScoreComponent"], _shared_game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_10__["GameHighscoreListComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJoaXJhZ2FuYS1tdWx0aXBsZS1jaG9pY2UuY29tcG9uZW50LnNjc3MifQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](HiraganaMultipleChoiceComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -781,6 +1088,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./shared/shared.module */ "PCNd");
 /* harmony import */ var _hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./hiragana-multiple-choice/hiragana-multiple-choice.component */ "TBKY");
 /* harmony import */ var _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./katakana-multiple-choice/katakana-multiple-choice.component */ "n3ry");
+/* harmony import */ var _vocabulary_multiple_choice_vocabulary_multiple_choice_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./vocabulary-multiple-choice/vocabulary-multiple-choice.component */ "0oZX");
+
 
 
 
@@ -803,7 +1112,8 @@ AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector
         _footer_footer_component__WEBPACK_IMPORTED_MODULE_4__["FooterComponent"],
         _hiragana_romaji_timer_hiragana_romaji_timer_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaRomajiTimerComponent"],
         _hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_7__["HiraganaMultipleChoiceComponent"],
-        _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__["KatakanaMultipleChoiceComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
+        _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__["KatakanaMultipleChoiceComponent"],
+        _vocabulary_multiple_choice_vocabulary_multiple_choice_component__WEBPACK_IMPORTED_MODULE_9__["VocabularyMultipleChoiceComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
         _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"],
         _shared_shared_module__WEBPACK_IMPORTED_MODULE_6__["SharedModule"]] }); })();
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](AppModule, [{
@@ -814,7 +1124,8 @@ AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector
                     _footer_footer_component__WEBPACK_IMPORTED_MODULE_4__["FooterComponent"],
                     _hiragana_romaji_timer_hiragana_romaji_timer_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaRomajiTimerComponent"],
                     _hiragana_multiple_choice_hiragana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_7__["HiraganaMultipleChoiceComponent"],
-                    _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__["KatakanaMultipleChoiceComponent"]
+                    _katakana_multiple_choice_katakana_multiple_choice_component__WEBPACK_IMPORTED_MODULE_8__["KatakanaMultipleChoiceComponent"],
+                    _vocabulary_multiple_choice_vocabulary_multiple_choice_component__WEBPACK_IMPORTED_MODULE_9__["VocabularyMultipleChoiceComponent"]
                 ],
                 imports: [
                     _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -864,6 +1175,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HiraganaChoiceComponent", function() { return HiraganaChoiceComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var src_app_model_furigana_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/model/furigana.model */ "BtRM");
+/* harmony import */ var src_app_model_vocabulary_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/model/vocabulary.model */ "8YdX");
+
 
 
 
@@ -881,8 +1194,14 @@ class HiraganaChoiceComponent {
             this.selected.emit(this.furigana);
         }
     }
-    get romaji() {
-        return this.furigana.romaji;
+    get given() {
+        if (this.furigana instanceof src_app_model_furigana_model__WEBPACK_IMPORTED_MODULE_1__["FuriganaModel"]) {
+            return this.furigana.romaji;
+        }
+        else if (this.furigana instanceof src_app_model_vocabulary_model__WEBPACK_IMPORTED_MODULE_2__["VocabularyModel"]) {
+            return this.furigana.allMeaning;
+        }
+        return '';
     }
     get hiragana() {
         return this.furigana.hiragana;
@@ -901,7 +1220,7 @@ HiraganaChoiceComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵ
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("className", "p-2 mt-2 text-center fw-weight-bold h5 " + (ctx.isVisible ? "visible" : "invisible"));
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.romaji);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.given);
     } }, styles: [".tile[_ngcontent-%COMP%]:hover {\n  background-color: #d1e7dd;\n}\n\n.disabled[_ngcontent-%COMP%] {\n  cursor: not-allowed !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uXFwuLlxcLi5cXC4uXFxoaXJhZ2FuYS1jaG9pY2UuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSx5QkFBQTtBQUNKOztBQUVBO0VBQ0ksOEJBQUE7QUFDSiIsImZpbGUiOiJoaXJhZ2FuYS1jaG9pY2UuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIudGlsZTpob3ZlciB7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZDFlN2RkO1xyXG59XHJcblxyXG4uZGlzYWJsZWQge1xyXG4gICAgY3Vyc29yOiBub3QtYWxsb3dlZCAhaW1wb3J0YW50O1xyXG59Il19 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](HiraganaChoiceComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
@@ -1128,27 +1447,43 @@ GameMenuComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefine
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FuriganaDb", function() { return FuriganaDb; });
 /* harmony import */ var _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../model/furigana.model */ "BtRM");
+/* harmony import */ var _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../model/vocabulary.model */ "8YdX");
+
 
 class FuriganaDb {
-    static randomHiragana(tiles = 96) {
+    static randomVocabulary(tiles = 20) {
+        const vocabulary = this.vocabulary.map((f) => f);
+        const random = (this.randomizeVocabs(vocabulary, tiles));
+        return random;
+    }
+    static randomHiragana(tiles = 120) {
         const hiragana = this.table.filter((furigana) => furigana.hasHiragana).map((f) => f);
         const random = (this.randomizeFurigana(hiragana, tiles));
         return random;
     }
-    static randomKatakana(tiles = 96) {
-        const hiragana = this.table.filter((furigana) => furigana.hasKatakana).map((f) => f);
-        const random = (this.randomizeFurigana(hiragana, tiles));
+    static randomKatakana(tiles = 120) {
+        const katakana = this.table.filter((furigana) => furigana.hasKatakana).map((f) => f);
+        const random = (this.randomizeFurigana(katakana, tiles));
         return random;
     }
-    static sortedHiragana(tiles = 96) {
+    static sortedHiragana(tiles = 120) {
         const hiragana = this.table.filter((furigana) => furigana.hasHiragana).map((f) => f);
         return hiragana.slice(0, tiles);
     }
-    static sortedKatakana(tiles = 96) {
-        const hiragana = this.table.filter((furigana) => furigana.hasKatakana).map((f) => f);
-        return hiragana.slice(0, tiles);
+    static sortedKatakana(tiles = 120) {
+        const katakana = this.table.filter((furigana) => furigana.hasKatakana).map((f) => f);
+        return katakana.slice(0, tiles);
     }
     static randomizeFurigana(array, size) {
+        const result = [];
+        while (result.length < size && array.length > 0) {
+            const index = Math.floor(Math.random() * array.length);
+            result.push(array[index]);
+            array.splice(index, 1);
+        }
+        return result;
+    }
+    static randomizeVocabs(array, size) {
         const result = [];
         while (result.length < size && array.length > 0) {
             const index = Math.floor(Math.random() * array.length);
@@ -1266,6 +1601,72 @@ FuriganaDb.table = [
     new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('pya'),
     new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('pyu'),
     new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('pyo'),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('tsa', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('tse', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('tso', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('she', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('che', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('je', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('va', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('vi', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('ve', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('vo', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('fa', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('fi', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('fe', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('fo', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('wi', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('we', false),
+    new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('wo', false),
+];
+FuriganaDb.vocabulary = [
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('watashi')], ['I']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('watashitachi')], ['We']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('anata')], ['You']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('anohito')], ['That person']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('anokata')], ['That person (polite)']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('minasan')], ['ladies and gentlemen', 'all of you']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('~san')], ['Mr.', 'Ms.']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('~chan')], ['suffix added to a child\'s name']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('~kun')], ['suffix added to a boy\'s name']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('~jin')], ['suffix meaning "a national of"']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('sensei')], ['teacher', 'instructor (not used when referring to one\'s own job)']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('kyoushi')], ['teacher', 'instructor']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('gakusei')], ['student']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('kaishain')], ['company employee']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('shain')], ['employee of ～']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('ginkouin')], ['bank employee']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('isha')], ['medical doctor']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('kenkyuusha')], ['researcher', 'scholar']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('enjinia')], ['engineer'], true),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('daigaku')], ['university']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('byouin')], ['hospital']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('denki')], ['electricity', 'light']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('dare')], ['who']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('donata')], ['who (polite)']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('~sai')], ['~ years old']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('nansai')], ['how old']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('oikutsu')], ['how old (polite)']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('hai')], ['yes']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('iie')], ['no']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('shitsureidesuga')], ['Excuse me', 'but']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('onamaeha')], ['May I have your name?']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('douzoyoroshiku')], ['Pleased to meet you']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('kochiraha~sandesu')], ['This is Mr. (Ms.) ~']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('~karakimashita')], ['I came (come) from ~']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('amerika')], ['U.S.A'], true),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('igirisu')], ['U.K.'], true),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('indoneshia')], ['Indonesia'], true),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('kankoku')], ['South Korea'], true),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('tai')], ['Thailand'], true),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('chuugoku')], ['China'], true),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('doitsu')], ['Germany'], true),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('nihon')], ['Japan'], true),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('furansu')], ['France'], true),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('burajiru')], ['Brazil'], true),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('sakuradaigaku')], ['Sakura University']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('fujidaigaku')], ['Fuji University']),
+    new _model_vocabulary_model__WEBPACK_IMPORTED_MODULE_1__["VocabularyModel"]([new _model_furigana_model__WEBPACK_IMPORTED_MODULE_0__["FuriganaModel"]('koubebyouin')], ['Kobe Hospital']),
 ];
 
 
@@ -1284,6 +1685,90 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rxjs */ "qCKp");
 
 class NihongoScoreboard {
+    constructor(scoreConfig) {
+        this.lastTime = 0;
+        this.time = 0;
+        this.points = 0;
+        this.errors = 0;
+        this.given = null;
+        this.timerSub = null;
+        this.scoreConfig = null;
+        this.lastTime = 0;
+        this.time = 0;
+        this.points = 0;
+        this.errors = 0;
+        this.given = null;
+        this.timerSub = null;
+        this.scoreConfig = scoreConfig;
+    }
+    start() {
+        this.timerSub = Object(rxjs__WEBPACK_IMPORTED_MODULE_0__["interval"])(1000)
+            .subscribe(x => { this.countdown(); });
+    }
+    stop() {
+        var _a;
+        (_a = this.timerSub) === null || _a === void 0 ? void 0 : _a.unsubscribe();
+    }
+    missed() {
+        var _a, _b;
+        this.errors++;
+        this.points -= (_b = (_a = this.scoreConfig) === null || _a === void 0 ? void 0 : _a.getMissedPoint()) !== null && _b !== void 0 ? _b : 0;
+    }
+    addPoint() {
+        var _a, _b;
+        this.points += (_b = (_a = this.scoreConfig) === null || _a === void 0 ? void 0 : _a.getPoint(this.lastTime, this.time)) !== null && _b !== void 0 ? _b : 0;
+        this.lastTime = this.time;
+    }
+    setGiven(furigana) {
+        this.given = furigana;
+    }
+    get timeNumber() {
+        return this.time;
+    }
+    get timeValue() {
+        const hour = Math.floor(this.time / 3600);
+        const minute = Math.floor((this.time % 3600) / 60);
+        const seconds = Math.floor((this.time % 3600) % 60);
+        return `${this.min2digit(hour)}:${this.min2digit(minute)}:${this.min2digit(seconds)}`;
+    }
+    get pointValue() {
+        return this.points;
+    }
+    get errorValue() {
+        return this.errors;
+    }
+    get givenValue() {
+        return this.given;
+    }
+    countdown() {
+        this.time++;
+    }
+    min2digit(num) {
+        if (num < 10) {
+            return `0${num}`;
+        }
+        else {
+            return `${num}`;
+        }
+    }
+}
+
+
+/***/ }),
+
+/***/ "jUhi":
+/*!**************************************************************************!*\
+  !*** ./src/app/game/vocabulary-multiple-choice/vocabulary-scoreboard.ts ***!
+  \**************************************************************************/
+/*! exports provided: VocabularyScoreboard */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VocabularyScoreboard", function() { return VocabularyScoreboard; });
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rxjs */ "qCKp");
+
+class VocabularyScoreboard {
     constructor(scoreConfig) {
         this.lastTime = 0;
         this.time = 0;
@@ -1586,6 +2071,149 @@ GameFinalScoreComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵ
 
 /***/ }),
 
+/***/ "maQn":
+/*!*************************************************************************!*\
+  !*** ./src/app/game/vocabulary-multiple-choice/vocabulary-game.base.ts ***!
+  \*************************************************************************/
+/*! exports provided: VocabularyGameBase */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VocabularyGameBase", function() { return VocabularyGameBase; });
+/* harmony import */ var _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../static-db/furigana.db */ "imSe");
+/* harmony import */ var _highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../highscore.list */ "p9ds");
+/* harmony import */ var _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hiragana-romaji-timer.score */ "4lOu");
+/* harmony import */ var _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../nihongo-base/nihongo-game */ "bPHt");
+/* harmony import */ var _vocabulary_scoreboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./vocabulary-scoreboard */ "jUhi");
+
+
+
+
+
+class VocabularyGameBase {
+    constructor() {
+        this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomVocabulary();
+        this.scoreboard = new _vocabulary_scoreboard__WEBPACK_IMPORTED_MODULE_4__["VocabularyScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__["HiraganaRomajiTimerScore"]());
+        this.selected = [];
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Menu;
+        this.multipleChoice = [];
+    }
+    start() {
+        this.selected = [];
+        this.table = _static_db_furigana_db__WEBPACK_IMPORTED_MODULE_0__["FuriganaDb"].randomVocabulary(20);
+        this.scoreboard = new _vocabulary_scoreboard__WEBPACK_IMPORTED_MODULE_4__["VocabularyScoreboard"](new _hiragana_romaji_timer_score__WEBPACK_IMPORTED_MODULE_2__["HiraganaRomajiTimerScore"]());
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Started;
+        this.scoreboard.start();
+        this.scoreboard.setGiven(this.chooseFurigana());
+        this.multipleChoice = this.getMultipleChoice();
+    }
+    goToMenu() {
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Menu;
+    }
+    goToHighscore() {
+        this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Highscore;
+    }
+    checkSelected(chosen) {
+        var _a;
+        if (chosen.hiragana === ((_a = this.scoreboard.givenValue) === null || _a === void 0 ? void 0 : _a.hiragana)) {
+            this.addSelected(chosen);
+            this.scoreboard.addPoint();
+            this.scoreboard.setGiven(this.chooseFurigana());
+            this.multipleChoice = this.getMultipleChoice();
+            if (this.table.length === this.selected.length) {
+                this.status = _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Completed;
+                this.saveHighscore();
+                this.scoreboard.stop();
+            }
+        }
+        else {
+            this.scoreboard.missed();
+        }
+    }
+    getTimeValue() {
+        return this.scoreboard.timeNumber;
+    }
+    getTable() {
+        return this.table;
+    }
+    getSelected() {
+        return this.selected.map((furigana) => furigana.duplicate());
+    }
+    getTime() {
+        return this.scoreboard.timeValue;
+    }
+    getPoint() {
+        return this.scoreboard.pointValue;
+    }
+    getError() {
+        return this.scoreboard.errorValue;
+    }
+    getGiven() {
+        return this.scoreboard.givenValue;
+    }
+    get statusValue() {
+        return this.status;
+    }
+    get multipleChoiceValue() {
+        return this.multipleChoice;
+    }
+    get hasStarted() {
+        return this.status === _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Started;
+    }
+    get onMenu() {
+        return this.status === _nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__["Statuses"].Menu;
+    }
+    saveHighscore() {
+        const highscore = new _highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreModel"](this.getPoint(), this.getTimeValue(), this.getError());
+        _highscore_list__WEBPACK_IMPORTED_MODULE_1__["HighscoreList"].addHighscore(highscore, _highscore_list__WEBPACK_IMPORTED_MODULE_1__["Games"].VocabularyMultiple);
+    }
+    getMultipleChoice() {
+        const furiganaSet = [];
+        const givenIndex = Math.floor(Math.random() * 4);
+        while (furiganaSet.length < 4) {
+            if (furiganaSet.length === givenIndex) {
+                if (this.scoreboard.givenValue) {
+                    furiganaSet.push(this.scoreboard.givenValue);
+                }
+            }
+            const furigana = this.randomFurigana(furiganaSet);
+            if (furigana) {
+                furiganaSet.push(furigana);
+            }
+            if (furiganaSet.length === givenIndex) {
+                if (this.scoreboard.givenValue) {
+                    furiganaSet.push(this.scoreboard.givenValue);
+                }
+            }
+        }
+        return furiganaSet;
+    }
+    addSelected(furigana) {
+        this.selected.push(furigana.duplicate());
+    }
+    chooseFurigana() {
+        const table = this.table.filter((f) => {
+            const selected = this.selected.filter((s) => s.hiragana === f.hiragana);
+            return selected.length === 0;
+        });
+        const index = Math.floor(Math.random() * table.length);
+        return table[index];
+    }
+    randomFurigana(furiganaSet) {
+        const given = this.scoreboard.givenValue;
+        const table = this.table.filter((f) => {
+            const set = furiganaSet.filter((fs) => fs.hiragana === f.hiragana);
+            return set.length === 0 && f.hiragana !== (given === null || given === void 0 ? void 0 : given.hiragana);
+        });
+        const index = Math.floor(Math.random() * table.length);
+        return table[index];
+    }
+}
+
+
+/***/ }),
+
 /***/ "n3ry":
 /*!********************************************************************************!*\
   !*** ./src/app/katakana-multiple-choice/katakana-multiple-choice.component.ts ***!
@@ -1600,12 +2228,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _game_highscore_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../game/highscore.list */ "p9ds");
 /* harmony import */ var _game_katakana_multiple_choice_katakana_multiple_choice_game__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../game/katakana-multiple-choice/katakana-multiple-choice.game */ "GTpk");
 /* harmony import */ var _game_nihongo_base_nihongo_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../game/nihongo-base/nihongo-game */ "bPHt");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "ofXK");
-/* harmony import */ var _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../shared/hiragana-choice/hiragana-choice.component */ "bhjN");
-/* harmony import */ var _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../shared/game-menu/game-menu.component */ "hU2R");
-/* harmony import */ var _shared_game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../shared/game-scoreboard/game-scoreboard.component */ "ONAn");
-/* harmony import */ var _shared_game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../shared/game-final-score/game-final-score.component */ "m8M7");
-/* harmony import */ var _shared_game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../shared/game-highscore-list/game-highscore-list.component */ "ws5B");
+/* harmony import */ var _model_furigana_model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../model/furigana.model */ "BtRM");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../shared/hiragana-choice/hiragana-choice.component */ "bhjN");
+/* harmony import */ var _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../shared/game-menu/game-menu.component */ "hU2R");
+/* harmony import */ var _shared_game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../shared/game-scoreboard/game-scoreboard.component */ "ONAn");
+/* harmony import */ var _shared_game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../shared/game-final-score/game-final-score.component */ "m8M7");
+/* harmony import */ var _shared_game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../shared/game-highscore-list/game-highscore-list.component */ "ws5B");
+
 
 
 
@@ -1688,7 +2318,9 @@ class KatakanaMultipleChoiceComponent {
         return this.katakanaGame.hasStarted;
     }
     onSelect(furigana) {
-        this.katakanaGame.checkSelected(furigana);
+        if (furigana instanceof _model_furigana_model__WEBPACK_IMPORTED_MODULE_4__["FuriganaModel"]) {
+            this.katakanaGame.checkSelected(furigana);
+        }
     }
 }
 KatakanaMultipleChoiceComponent.ɵfac = function KatakanaMultipleChoiceComponent_Factory(t) { return new (t || KatakanaMultipleChoiceComponent)(); };
@@ -1720,7 +2352,7 @@ KatakanaMultipleChoiceComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.completed);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.highscore);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_4__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgIf"], _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_5__["HiraganaChoiceComponent"], _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_6__["GameMenuComponent"], _shared_game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_7__["GameScoreboardComponent"], _shared_game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_8__["GameFinalScoreComponent"], _shared_game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_9__["GameHighscoreListComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJrYXRha2FuYS1tdWx0aXBsZS1jaG9pY2UuY29tcG9uZW50LnNjc3MifQ== */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_5__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["NgIf"], _shared_hiragana_choice_hiragana_choice_component__WEBPACK_IMPORTED_MODULE_6__["HiraganaChoiceComponent"], _shared_game_menu_game_menu_component__WEBPACK_IMPORTED_MODULE_7__["GameMenuComponent"], _shared_game_scoreboard_game_scoreboard_component__WEBPACK_IMPORTED_MODULE_8__["GameScoreboardComponent"], _shared_game_final_score_game_final_score_component__WEBPACK_IMPORTED_MODULE_9__["GameFinalScoreComponent"], _shared_game_highscore_list_game_highscore_list_component__WEBPACK_IMPORTED_MODULE_10__["GameHighscoreListComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJrYXRha2FuYS1tdWx0aXBsZS1jaG9pY2UuY29tcG9uZW50LnNjc3MifQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](KatakanaMultipleChoiceComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -1821,7 +2453,7 @@ class GameSelectorComponent {
     }
 }
 GameSelectorComponent.ɵfac = function GameSelectorComponent_Factory(t) { return new (t || GameSelectorComponent)(); };
-GameSelectorComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: GameSelectorComponent, selectors: [["app-game-selector"]], outputs: { selected: "selected" }, decls: 10, vars: 0, consts: [[1, "d-flex", "flex-column"], [1, "overlay", "d-flex", "flex-column", "justify-content-center", "align-items-center", "bg-orange"], [1, "menu", "p-5", "d-flex", "flex-column", "justify-content-center", "align-items-center"], [1, "display-3"], [1, "mt-3", "d-flex", "flex-column"], ["type", "button", 1, "btn", "btn-light", "my-1", 3, "click"]], template: function GameSelectorComponent_Template(rf, ctx) { if (rf & 1) {
+GameSelectorComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: GameSelectorComponent, selectors: [["app-game-selector"]], outputs: { selected: "selected" }, decls: 12, vars: 0, consts: [[1, "d-flex", "flex-column"], [1, "overlay", "d-flex", "flex-column", "justify-content-center", "align-items-center", "bg-orange"], [1, "menu", "p-5", "d-flex", "flex-column", "justify-content-center", "align-items-center"], [1, "display-3"], [1, "mt-3", "d-flex", "flex-column"], ["type", "button", 1, "btn", "btn-light", "my-1", 3, "click"]], template: function GameSelectorComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
@@ -1836,6 +2468,10 @@ GameSelectorComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "button", 5);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function GameSelectorComponent_Template_button_click_8_listener() { return ctx.selectGame(ctx.availableGames.KatakanaMultiple); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](9, " Katakana - Romaji ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "button", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function GameSelectorComponent_Template_button_click_10_listener() { return ctx.selectGame(ctx.availableGames.VocabularyMultiple); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](11, " Vocabulary Game ");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -1873,6 +2509,7 @@ var Games;
 (function (Games) {
     Games["HiraganaMultiple"] = "HiraganaMultiple";
     Games["KatakanaMultiple"] = "KatakanaMultiple";
+    Games["VocabularyMultiple"] = "VocabularyMultiple";
     Games["NoSelection"] = "NoSelection";
 })(Games || (Games = {}));
 class HighscoreList {
